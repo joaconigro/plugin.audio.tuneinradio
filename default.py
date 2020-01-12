@@ -597,12 +597,14 @@ def play_streams(streams, name=None, logo=None):
 
 
 def log_error(msg):
-    print(('%s: ERROR: %s' % (__addonname__, utils.normalize_unicode(msg))))
+    xbmc.log(('%s: ERROR: %s' % (__addonname__, utils.normalize_unicode(msg))))
+    # print(('%s: ERROR: %s' % (__addonname__, utils.normalize_unicode(msg))))
 
 
 def log_debug(msg, dbglvl):
     if __debuglevel__ >= int(dbglvl):
-        print(('%s: DEBUG: %s' % (__addonname__, utils.normalize_unicode(msg))))
+        xbmc.log(('%s: ERROR: %s' % (__addonname__, utils.normalize_unicode(msg))))
+        # print(('%s: DEBUG: %s' % (__addonname__, utils.normalize_unicode(msg))))
 
 
 def get_logo_colour():
