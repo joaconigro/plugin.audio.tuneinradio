@@ -22,12 +22,12 @@
 import xbmc
 import xbmcgui
 import unicodedata
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import xml.etree.ElementTree as etree
 
 
 def normalize_unicode(text):
-    if text and not isinstance(text, unicode):
+    if text and not isinstance(text, str):
         return text
     if not text or len(text) == 0:
         return ''
@@ -59,7 +59,7 @@ def get_int(tuple, key):
 
 
 def add_params(root, params):
-    return '%s?%s' % (root, urllib.urlencode(params))
+    return '%s?%s' % (root, urllib.parse.urlencode(params))
 
 
 def keyboard(default='', heading='', hidden=False):
@@ -105,7 +105,7 @@ def add_to_favourites(name, thumb, command):
         favourite.set('thumb', thumb)
         tree.write(favourites)
     except Exception as exception:
-        print exception
+        print(exception)
         return False
     return True
 
@@ -124,5 +124,5 @@ def get_params(text):
             splitparams = {}
             splitparams = pairsofparams[i].split('=')
             if len(splitparams) == 2:
-                param[splitparams[0]] = urllib.unquote_plus(splitparams[1])
+                param[splitparams[0]] = urllib.parse.unquote_plus(splitparams[1])
     return param

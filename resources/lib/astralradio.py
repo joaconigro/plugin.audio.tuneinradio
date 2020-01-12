@@ -20,7 +20,7 @@
 # */
 
 import sys
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 if sys.version_info >= (2,7):
     import json as _json
@@ -44,7 +44,7 @@ class AstralRadio:
 
             if len(callsign) > 0:
                 # Read json config for station
-                f = urllib2.urlopen(('http://provstatic1.amri.ca/ps/player_%sfm.v2.json' % callsign[0]))
+                f = urllib.request.urlopen(('http://provstatic1.amri.ca/ps/player_%sfm.v2.json' % callsign[0]))
                 config = _json.load(f)
                 f.close()
 

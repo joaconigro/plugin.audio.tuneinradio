@@ -22,7 +22,7 @@
 from random import choice as choise
 import os
 import sys
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import xml.dom.minidom as minidom
 
 
@@ -98,7 +98,7 @@ class StreamTheWorld:
         ''' Make a Call to StreamTheWorld API v1.5
         '''
         host = 'playerservices.streamtheworld.com'
-        req = urllib2.Request(
+        req = urllib.request.Request(
             'http://%s/api/livestream?version=1.5&mount=%s&lang=en' %
             (host, callsign))
 
@@ -141,12 +141,12 @@ class StreamTheWorld:
         try:
             callsign = self.__validate_callsign(cs)
             req = self.__make_request(callsign)
-            result = urllib2.urlopen(req)
+            result = urllib.request.urlopen(req)
             urls = self.__create_stream_urls(result)
         except:
             callsign = self.__validate_callsign(cs, False)
             req = self.__make_request(callsign)
-            result = urllib2.urlopen(req)
+            result = urllib.request.urlopen(req)
             urls = self.__create_stream_urls(result)
 
         if len(urls) > 0:
