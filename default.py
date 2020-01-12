@@ -279,7 +279,8 @@ def add_directory_item(name, url, label='', artist='', album='', genre='', comme
         contextmenu.append((__settings__.get_string(
             1011), 'XBMC.RunPlugin(%s?path=refresh)' % __settings__.get_argv(0)))
 
-    liz = xbmcgui.ListItem(name, label, iconImage=iconImage, thumbnailImage=thumbnailImage)
+    liz = xbmcgui.ListItem(name, label)
+    liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
     liz.addContextMenuItems(items=contextmenu, replaceItems=True)
     liz.setInfo('Music', {'Title': name, 'Artist': artist, 'Album':
                 album, 'Genre': genre, 'Comment': comment})
@@ -570,7 +571,8 @@ def add_streams(streams, name=None, logo=None):
         pDialog.update(50, 'Adding stream %d of %d to playlist' % (count + 1, len(streams)), stream)
 
         if name:
-            liz = xbmcgui.ListItem(name, iconImage=logo, thumbnailImage=logo)
+            liz = xbmcgui.ListItem(name)
+            liz.setArt({ 'icon': logo, 'thumb' : logo })
             liz.setInfo('music', {'Title': name})
             playlist.add(url=stream, listitem=liz)
         else:
@@ -1039,8 +1041,8 @@ else:
             '%s%s%s' % ('resources/media/', get_logo_colour(), '/favourites-32.png'))
         thumbnailImage = __settings__.get_path(
             '%s%s%s' % ('resources/media/', get_logo_colour(), '/favourites-256.png'))
-        liz = xbmcgui.ListItem(
-            __settings__.get_string(1000), iconImage=iconImage, thumbnailImage=thumbnailImage)
+        liz = xbmcgui.ListItem(__settings__.get_string(1000))
+        liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
         liz.addContextMenuItems(items=contextmenu, replaceItems=True)
         if __settings__.get('fanart') == "true":
             liz.setProperty('fanart_image', __fanart__)
@@ -1054,8 +1056,8 @@ else:
                 'resources/media/', get_logo_colour(), '/recents-32.png'))
             thumbnailImage = __settings__.get_path('%s%s%s' % (
                 'resources/media/', get_logo_colour(), '/recents-256.png'))
-            liz = xbmcgui.ListItem(__settings__.get_string(
-                1001), iconImage=iconImage, thumbnailImage=thumbnailImage)
+            liz = xbmcgui.ListItem(__settings__.get_string(1001))
+            liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
             liz.addContextMenuItems(items=contextmenu, replaceItems=True)
             if __settings__.get('fanart') == "true":
                 liz.setProperty('fanart_image', __fanart__)
@@ -1069,8 +1071,8 @@ else:
                 'resources/media/', get_logo_colour(), '/downloads-32.png'))
             thumbnailImage = __settings__.get_path('%s%s%s' % (
                 'resources/media/', get_logo_colour(), '/downloads-256.png'))
-            liz = xbmcgui.ListItem(__settings__.get_string(
-                1015), iconImage=iconImage, thumbnailImage=thumbnailImage)
+            liz = xbmcgui.ListItem(__settings__.get_string(1015))
+            liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
             liz.addContextMenuItems(items=contextmenu, replaceItems=True)
             if __settings__.get('fanart') == "true":
                 liz.setProperty('fanart_image', __fanart__)
@@ -1083,8 +1085,8 @@ else:
             'resources/media/', get_logo_colour(), '/browse-32.png'))
         thumbnailImage = __settings__.get_path('%s%s%s' % (
             'resources/media/', get_logo_colour(), '/browse-256.png'))
-        liz = xbmcgui.ListItem(
-            __settings__.get_string(1002), iconImage=iconImage, thumbnailImage=thumbnailImage)
+        liz = xbmcgui.ListItem(__settings__.get_string(1002))
+        liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
         liz.addContextMenuItems(items=contextmenu, replaceItems=True)
         if __settings__.get('fanart') == "true":
             liz.setProperty('fanart_image', __fanart__)
@@ -1097,8 +1099,8 @@ else:
             'resources/media/', get_logo_colour(), '/search-32.png'))
         thumbnailImage = __settings__.get_path('%s%s%s' % (
             'resources/media/', get_logo_colour(), '/search-256.png')) 
-        liz = xbmcgui.ListItem(
-            __settings__.get_string(1003), iconImage=iconImage, thumbnailImage=thumbnailImage)
+        liz = xbmcgui.ListItem(__settings__.get_string(1003))
+        liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
         liz.addContextMenuItems(items=contextmenu, replaceItems=True)
         if __settings__.get('fanart') == "true":
             liz.setProperty('fanart_image', __fanart__)
@@ -1111,8 +1113,8 @@ else:
             'resources/media/', get_logo_colour(), '/stream-32.png'))
         thumbnailImage = __settings__.get_path('%s%s%s' % (
             'resources/media/', get_logo_colour(), '/stream-256.png')) 
-        liz = xbmcgui.ListItem(
-            __settings__.get_string(1006), iconImage=iconImage, thumbnailImage=thumbnailImage)
+        liz = xbmcgui.ListItem(__settings__.get_string(1006))
+        liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
         liz.setProperty('IsPlayable', 'true')
         liz.addContextMenuItems(items=contextmenu, replaceItems=True)
         if __settings__.get('fanart') == "true":
