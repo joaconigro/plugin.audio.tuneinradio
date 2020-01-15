@@ -118,9 +118,5 @@ FAQ
 2. The TuneIn is providing an audio stream that Kodi can not play.</li>
 3. There's a bug in my plugin.
 
-License
--------
-This software is released under the [GPL 3.0 license] [2].
-
 [1]: http://kodi.wiki/view/HOW-TO:Install_an_Add-on_from_a_zip_file
-[2]: http://www.gnu.org/licenses/gpl-3.0.html
+
