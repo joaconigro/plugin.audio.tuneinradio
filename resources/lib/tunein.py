@@ -814,12 +814,25 @@ class TuneIn:
                 ''' StreamTheWorld Support
                 '''
                 self.log_debug('StreamTheWorld stream')
-                pattern = re.compile('(.*)callsign\=(.*)$')
-                result = pattern.match(filename)
-                if (result):
-                    stw = streamtheworld.StreamTheWorld(result.group(2))
-                    stw_url = stw.get_stream_url(result.group(2))
-                    streams.append(stw_url)
+                if (filepath.endswith('pls')):
+                    self.log_debug('PLS Playlist')
+                    for stream in self.__parse_pls(stream):
+                        streams.append(stream)
+                elif (filepath.endswith('asx')):
+                    self.log_debug('ASX Playlist')
+                    for stream in self.__parse_asx(stream):
+                        streams.append(stream)
+                elif (filepath.endswith('.m3u')):
+                    self.log_debug('M3U Playlist')
+                    for stream in self.__parse_m3u(stream):
+                        streams.append(stream)
+                else:
+                    pattern = re.compile('(.*)callsign\=(.*)$')
+                    result = pattern.match(filename)
+                    if (result):
+                        stw = streamtheworld.StreamTheWorld(result.group(2))
+                        stw_url = stw.get_stream_url(result.group(2))
+                        streams.append(stw_url)
             elif (stream.find('player.amri.ca') != -1):
                 ''' Astral Radio Support
                 '''
