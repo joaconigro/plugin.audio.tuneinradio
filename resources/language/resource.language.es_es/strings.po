@@ -1,0 +1,365 @@
+# XBMC Media Center language file
+# Addon Name: TuneIn Radio
+# Addon id: plugin.audio.tuneinradio
+# Addon Provider: joaco
+msgid ""
+msgstr ""
+"Project-Id-Version: XBMC-Addons\n"
+"Report-Msgid-Bugs-To: alanwww1@xbmc.org\n"
+"POT-Creation-Date: 2020-01-12 16:04+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Joaquín Nigro <joaquinnigro@gmail.com>\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgctxt "#1000"
+msgid "Favourites"
+msgstr "Mis presintonias"
+
+msgctxt "#1001"
+msgid "Recents"
+msgstr "Recientes"
+
+msgctxt "#1002"
+msgid "Browse"
+msgstr "Navegar"
+
+msgctxt "#1003"
+msgid "Search"
+msgstr "Buscar"
+
+msgctxt "#1004"
+msgid "Add station"
+msgstr "Agregar estación"
+
+msgctxt "#1005"
+msgid "Remove station"
+msgstr "Eliminar estación"
+
+msgctxt "#1006"
+msgid "Custom URL"
+msgstr "URL Personalizada"
+
+msgctxt "#1009"
+msgid "Add show"
+msgstr "Agregar show"
+
+msgctxt "#1010"
+msgid "Remove show"
+msgstr "Eliminar show"
+
+msgctxt "#1011"
+msgid "Refresh"
+msgstr "Refrescar"
+
+msgctxt "#1012"
+msgid "Move up"
+msgstr "Mover arriba"
+
+msgctxt "#1013"
+msgid "Move down"
+msgstr "Mover abajo"
+
+msgctxt "#1014"
+msgid "Download Show"
+msgstr "Descargar Show"
+
+msgctxt "#1015"
+msgid "Downloads"
+msgstr "Descargas"
+
+msgctxt "#1016"
+msgid "Remove download"
+msgstr "Eliminar descarga"
+
+msgctxt "#1017"
+msgid "Remove custom url"
+msgstr "Eliminar URL personalizada"
+
+msgctxt "#1018"
+msgid "Add to Kodi favourites"
+msgstr "Add to Kodi favourites"
+
+msgctxt "#2000"
+msgid "Username"
+msgstr "Usuario"
+
+msgctxt "#2001"
+msgid "Password"
+msgstr "Contraseña"
+
+msgctxt "#2003"
+msgid "Debug Level"
+msgstr "Nivel de depuración"
+
+msgctxt "#2004"
+msgid "None"
+msgstr "Ninguno"
+
+msgctxt "#2005"
+msgid "Low"
+msgstr "Bajo"
+
+msgctxt "#2006"
+msgid "Medium"
+msgstr "Medio"
+
+msgctxt "#2007"
+msgid "High"
+msgstr "Alto"
+
+msgctxt "#2008"
+msgid "Icon Colour"
+msgstr "Color de íconos"
+
+msgctxt "#2009"
+msgid "White"
+msgstr "White"
+
+msgctxt "#2010"
+msgid "Black"
+msgstr "Negro"
+
+msgctxt "#2011"
+msgid "Number Of Recents"
+msgstr "Número de recientes"
+
+msgctxt "#2012"
+msgid "Prompt When Changing Station"
+msgstr "Mensaje cuando cambia estación"
+
+msgctxt "#2013"
+msgid "HTTPS"
+msgstr "HTTPS"
+
+msgctxt "#2014"
+msgid "Download Path"
+msgstr "Path de descarga"
+
+msgctxt "#2015"
+msgid "Display TuneIn Featured Station"
+msgstr "Mostrar estaciones destacadas de TuneIn"
+
+msgctxt "#2016"
+msgid "Display TuneIn Local Station(s)"
+msgstr "Mostrar estaciones locales de TuneIn"
+
+msgctxt "#2017"
+msgid "Display Fanart"
+msgstr "Mostrar Fanart"
+
+msgctxt "#2018"
+msgid "Download In Background"
+msgstr "Descarga en background"
+
+msgctxt "#2019"
+msgid "AAC/AAC+"
+msgstr "AAC/AAC+"
+
+msgctxt "#2020"
+msgid "MP3"
+msgstr "MP3"
+
+msgctxt "#2021"
+msgid "OGG"
+msgstr "OGG"
+
+msgctxt "#2022"
+msgid "RealMedia"
+msgstr "RealMedia"
+
+msgctxt "#2023"
+msgid "Windows Media"
+msgstr "Windows Media"
+
+msgctxt "#2024"
+msgid "AM (Broadcast)"
+msgstr "AM (Broadcast)"
+
+msgctxt "#2025"
+msgid "DAB (Broadcast)"
+msgstr "DAB (Broadcast)"
+
+msgctxt "#2026"
+msgid "FM (Broadcast)"
+msgstr "FM (Broadcast)"
+
+msgctxt "#2027"
+msgid "HD (Broadcast)"
+msgstr "HD (Broadcast)"
+
+msgctxt "#2028"
+msgid "HTML Web Page"
+msgstr "HTML Web Page"
+
+msgctxt "#2029"
+msgid "QuickTime"
+msgstr "QuickTime"
+
+msgctxt "#2030"
+msgid "RTMP Flash"
+msgstr "RTMP Flash"
+
+msgctxt "#2031"
+msgid "Satellite (Broadcast)"
+msgstr "Satelite (Broadcast)"
+
+msgctxt "#2032"
+msgid "Windows Media Professional"
+msgstr "Windows Media Professional"
+
+msgctxt "#2033"
+msgid "Windows Media Video"
+msgstr "Windows Media Video"
+
+msgctxt "#2034"
+msgid "Windows Media Voice"
+msgstr "Windows Media Voice"
+
+msgctxt "#2035"
+msgid "Enable Downloads"
+msgstr "Habilitar descargas"
+
+msgctxt "#2036"
+msgid "Update Cache (hrs)"
+msgstr "Actualizar cache (hrs)"
+
+msgctxt "#2037"
+msgid "Latitude/Longitude"
+msgstr "Latitud/Longitud"
+
+msgctxt "#2038"
+msgid "Language"
+msgstr "Language"
+
+msgctxt "#2039"
+msgid "Red"
+msgstr "Rojo"
+
+msgctxt "#2040"
+msgid "Only show TuneIn favourites"
+msgstr "Only show TuneIn favourites"
+
+msgctxt "#2050"
+msgid "TuneIn"
+msgstr "TuneIn"
+
+msgctxt "#2051"
+msgid "Appearance"
+msgstr "Appearance"
+
+msgctxt "#2052"
+msgid "Downloads"
+msgstr "Downloads"
+
+msgctxt "#2053"
+msgid "Formats"
+msgstr "Formats"
+
+msgctxt "#2054"
+msgid "Advanced"
+msgstr "Advanced"
+
+msgctxt "#3000"
+msgid "Enter station/show/artists name"
+msgstr "Escriba el nombre de estación/show/artista"
+
+msgctxt "#3001"
+msgid "TuneIn account required to perform this action"
+msgstr "Una cuenta TuneIn es requerida para esta acción"
+
+msgctxt "#3002"
+msgid "Visit tunein.com - for free sign up"
+msgstr "Visite tunein.com - para registrarse gratuitamente"
+
+msgctxt "#3003"
+msgid "Unable to authenticate account"
+msgstr "No puede autenticar la cuenta"
+
+msgctxt "#3004"
+msgid "Check username and password are correct"
+msgstr "Verifique que el usuario y la contraseña sean correctas"
+
+msgctxt "#3005"
+msgid "Do you want to play stream?"
+msgstr "Desea reproducir el stream"
+
+msgctxt "#3006"
+msgid "Enter custom url"
+msgstr "Escriba el URL personalizado"
+
+msgctxt "#3007"
+msgid "'%s' exists in TuneIn."
+msgstr "'%s' existe en TuneIn."
+
+msgctxt "#3008"
+msgid "Do you want to add it to your favourites?"
+msgstr "Desea agregar a sus presintonías?"
+
+msgctxt "#3009"
+msgid "Network error."
+msgstr "Error de red."
+
+msgctxt "#3010"
+msgid "See xbmc.log for more information."
+msgstr "Vea xbmc.log para más información."
+
+msgctxt "#3011"
+msgid "TuneIn Radio error."
+msgstr "Error de TuneIn Radio."
+
+msgctxt "#3012"
+msgid "This stream does not exist in TuneIn."
+msgstr "Este stream no existe en TuneIn."
+
+msgctxt "#3013"
+msgid "Do you want to add it to your presets as a custom url?"
+msgstr "Desea agregar esta URL personalizada a sus presintonías?"
+
+msgctxt "#3014"
+msgid "Enter a name for custom url"
+msgstr "Escriba un nombre para la URL personalizada"
+
+msgctxt "#3015"
+msgid "Failed to download show."
+msgstr "Fallo en descarga del show."
+
+msgctxt "#3016"
+msgid "Download show url is blank, try playing instead."
+msgstr "El URL de descarga del show esta vacio, intente reproducirlo."
+
+msgctxt "#3017"
+msgid "Unable to add station to Kodi favourites."
+msgstr "Unable to add station to Kodi favourites."
+
+msgctxt "#4000"
+msgid "TuneIn Radio"
+msgstr "TuneIn Radio"
+
+msgctxt "#4001"
+msgid "Starting download of file."
+msgstr "Iniciando la descarga del archivo."
+
+msgctxt "#4002"
+msgid "Downloaded %d of %d bytes."
+msgstr "Descargados %d de %d bytes."
+
+msgctxt "#4003"
+msgid "File %s already exists."
+msgstr "El archivo %s ya existe."
+
+msgctxt "#4004"
+msgid "%s has successfully been downloaded."
+msgstr "%s ha sido descargado satisfactoriamente."
+
+msgctxt "#4005"
+msgid "Download of file failed: %s"
+msgstr "Falla en descarga del archivo: %s"
+
+msgctxt "#4006"
+msgid "Overwrite?"
+msgstr "Sobreescribir?"

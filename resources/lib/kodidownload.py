@@ -23,11 +23,11 @@ import xbmc
 import xbmcgui
 import sys
 import os
-import urllib
-import urllib2
-import urlparse
-import kodisettings as settings
-import kodiutils as utils
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
+import urllib.parse
+from . import kodisettings as settings
+from . import kodiutils as utils
 
 
 def cancel_progressdialog(progressdialog):
@@ -41,15 +41,15 @@ def update_progressdialog(addonsettings, progressdialog, downloadfile, bytes_so_
 
 
 def __download(url, path, addonsettings, progressdialog=None, chunk_size=8192, cancelhook=None, reporthook=None):
-    response = urllib2.urlopen(url)
+    response = urllib.request.urlopen(url)
     downloadfile = os.path.join(
-        path, os.path.basename(urlparse.urlsplit(url)[2]))
+        path, os.path.basename(urllib.parse.urlsplit(url)[2]))
     total_size = response.info().getheader('Content-Length').strip()
     total_size = int(total_size)
     bytes_so_far = 0
     result = True
     if os.path.exists(downloadfile):
-        filename = os.path.basename(urlparse.urlsplit(url)[2])
+        filename = os.path.basename(urllib.parse.urlsplit(url)[2])
         if not utils.yesno(addonsettings.get_string(4000), addonsettings.get_string(4003) % filename, addonsettings.get_string(4006)):
             xbmc.log('[Kodi Download] File already exists. Do not overwrite.',
                      xbmc.LOGINFO)
@@ -97,19 +97,19 @@ def download(url, downloadpath, addonid, background=False, debug=False):
             result = __download(url, downloadpath, addonsettings, progressdialog, cancelhook=cancel_progressdialog, reporthook=update_progressdialog)
         else:
             result = __download(url, downloadpath, addonsettings)
-    except urllib2.URLError, e:
+    except urllib.error.URLError as e:
         xbmc.log('[Kodi Download] URLError: %s' % (e), xbmc.LOGERROR)
         result = (False, None)
 
     if background == False:
         progressdialog.close()
     elif result[0] == True:
-        filename = os.path.basename(urlparse.urlsplit(url)[2])
+        filename = os.path.basename(urllib.parse.urlsplit(url)[2])
         command = 'Notification(%s, %s)' % (addonsettings.get_string(
             4000), (addonsettings.get_string(4004) % (filename)))
         xbmc.executebuiltin(command)
     else:
-        filename = os.path.basename(urlparse.urlsplit(url)[2])
+        filename = os.path.basename(urllib.parse.urlsplit(url)[2])
         command = 'Notification(%s, %s)' % (addonsettings.get_string(
             4000), (addonsettings.get_string(4005) % (filename)))
         xbmc.executebuiltin(command)
@@ -117,5 +117,5 @@ def download(url, downloadpath, addonid, background=False, debug=False):
     return result
 
 if __name__ == '__main__':
-    result = download(sys.argv[1], urllib.unquote_plus(sys.argv[2]), sys.argv[
+    result = download(sys.argv[1], urllib.parse.unquote_plus(sys.argv[2]), sys.argv[
                       3], sys.argv[4] == 'True', sys.argv[5] == 'True')

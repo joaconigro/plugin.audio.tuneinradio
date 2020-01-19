@@ -23,8 +23,8 @@ import xbmc
 import xbmcgui
 import xbmcplugin
 import os
-import urllib
-import urllib2
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
 import re
 
 import resources.lib.cache as cache
@@ -33,6 +33,7 @@ import resources.lib.kodidownload as download
 import resources.lib.kodisettings as settings
 import resources.lib.kodiutils as utils
 
+# import web_pdb; web_pdb.set_trace()
 
 def get_max_preset_num(elementslist):
     maxpresetnum = 0
@@ -206,9 +207,9 @@ def add_directory_item(name, url, label='', artist='', album='', genre='', comme
     # If logo argument not set use default directory/stream image.
     if (logo is None or len(logo) == 0) and isfolder:
         iconImage = __settings__.get_path('%s%s%s' % (
-            'resources/images/', get_logo_colour(), '/folder-32.png'))
+            'resources/media/', get_logo_colour(), '/folder-32.png'))
         thumbnailImage = __settings__.get_path('%s%s%s' % (
-            'resources/images/', get_logo_colour(), '/folder-256.png'))
+            'resources/media/', get_logo_colour(), '/folder-256.png'))
 
         # Add custom logos for Browse category
         # pattern = re.compile('(.*)c=(\w+)')
@@ -219,54 +220,54 @@ def add_directory_item(name, url, label='', artist='', album='', genre='', comme
             # if result.group(2) == "local":
             if category == "local":
                 iconImage = __settings__.get_path('%s%s%s' % (
-                    'resources/images/', get_logo_colour(), '/local-32.png'))
+                    'resources/media/', get_logo_colour(), '/local-32.png'))
                 thumbnailImage = __settings__.get_path('%s%s%s' % (
-                    'resources/images/', get_logo_colour(), '/local-256.png'))
+                    'resources/media/', get_logo_colour(), '/local-256.png'))
             elif category == "music":
                 iconImage = __settings__.get_path('%s%s%s' % (
-                    'resources/images/', get_logo_colour(), '/music-32.png'))
+                    'resources/media/', get_logo_colour(), '/music-32.png'))
                 thumbnailImage = __settings__.get_path('%s%s%s' % (
-                    'resources/images/', get_logo_colour(), '/music-256.png'))
+                    'resources/media/', get_logo_colour(), '/music-256.png'))
             elif category == "talk":
                 iconImage = __settings__.get_path('%s%s%s' % (
-                    'resources/images/', get_logo_colour(), '/talk-32.png'))
+                    'resources/media/', get_logo_colour(), '/talk-32.png'))
                 thumbnailImage = __settings__.get_path('%s%s%s' % (
-                    'resources/images/', get_logo_colour(), '/talk-256.png'))
+                    'resources/media/', get_logo_colour(), '/talk-256.png'))
             elif category == "sports":
                 iconImage = __settings__.get_path('%s%s%s' % (
-                    'resources/images/', get_logo_colour(), '/sports-32.png'))
+                    'resources/media/', get_logo_colour(), '/sports-32.png'))
                 thumbnailImage = __settings__.get_path('%s%s%s' % (
-                    'resources/images/', get_logo_colour(), '/sports-256.png'))
+                    'resources/media/', get_logo_colour(), '/sports-256.png'))
             elif category == "lang":
                 iconImage = __settings__.get_path('%s%s%s' % (
-                    'resources/images/', get_logo_colour(), '/by_language-32.png'))
+                    'resources/media/', get_logo_colour(), '/by_language-32.png'))
                 thumbnailImage = __settings__.get_path('%s%s%s' % (
-                    'resources/images/', get_logo_colour(), '/by_language-256.png'))
+                    'resources/media/', get_logo_colour(), '/by_language-256.png'))
             elif category == "podcast":
                 iconImage = __settings__.get_path('%s%s%s' % (
-                    'resources/images/', get_logo_colour(), '/podcasts-32.png'))
+                    'resources/media/', get_logo_colour(), '/podcasts-32.png'))
                 thumbnailImage = __settings__.get_path('%s%s%s' % (
-                    'resources/images/', get_logo_colour(), '/podcasts-256.png'))
+                    'resources/media/', get_logo_colour(), '/podcasts-256.png'))
             elif category == "video":
                 iconImage = __settings__.get_path('%s%s%s' % (
-                    'resources/images/', get_logo_colour(), '/livetv-32.png'))
+                    'resources/media/', get_logo_colour(), '/livetv-32.png'))
                 thumbnailImage = __settings__.get_path('%s%s%s' % (
-                    'resources/images/', get_logo_colour(), '/livetv-256.png'))
+                    'resources/media/', get_logo_colour(), '/livetv-256.png'))
 
         # Add custom logo for location
         pattern = re.compile('(.*)id=r(.*)')
         result = pattern.match(url)
         if (result):
             iconImage = __settings__.get_path('%s%s%s' % (
-                'resources/images/', get_logo_colour(), '/by_location-32.png'))
+                'resources/media/', get_logo_colour(), '/by_location-32.png'))
             thumbnailImage = __settings__.get_path('%s%s%s' % (
-                'resources/images/', get_logo_colour(), '/by_location-256.png'))
+                'resources/media/', get_logo_colour(), '/by_location-256.png'))
 
     elif (logo is None or len(logo) == 0) and not isfolder:
         iconImage = __settings__.get_path('%s%s%s' % (
-            'resources/images/', get_logo_colour(), '/stream-32.png'))
+            'resources/media/', get_logo_colour(), '/stream-32.png'))
         thumbnailImage = __settings__.get_path('%s%s%s' % (
-            'resources/images/', get_logo_colour(), '/stream-256.png'))
+            'resources/media/', get_logo_colour(), '/stream-256.png'))
     else:
         iconImage = logo
         thumbnailImage = logo
@@ -279,7 +280,8 @@ def add_directory_item(name, url, label='', artist='', album='', genre='', comme
         contextmenu.append((__settings__.get_string(
             1011), 'XBMC.RunPlugin(%s?path=refresh)' % __settings__.get_argv(0)))
 
-    liz = xbmcgui.ListItem(name, label, iconImage=iconImage, thumbnailImage=thumbnailImage)
+    liz = xbmcgui.ListItem(name, label)
+    liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
     liz.addContextMenuItems(items=contextmenu, replaceItems=True)
     liz.setInfo('Music', {'Title': name, 'Artist': artist, 'Album':
                 album, 'Genre': genre, 'Comment': comment})
@@ -500,7 +502,7 @@ def add_topic(topic, file=''):
             __settings__.get_argv(0), 'remove-download', id))]
     if stream_type == 'download':
         logo = __settings__.get_path('%s%s%s' % (
-            'resources/images/', get_logo_colour(), '/downloads-256.png'))
+            'resources/media/', get_logo_colour(), '/downloads-256.png'))
 
     add_directory_item(
         name, url, logo=logo, isfolder=False, contextmenu=contextmenu)
@@ -549,7 +551,7 @@ def add_topic_outline(topic):
         contextmenu = [(__settings__.get_string(1014), 'XBMC.RunPlugin(%s?path=%s&id=%s)' % (
             __settings__.get_argv(0), 'download', id))]
         logo = __settings__.get_path('%s%s%s' % (
-            'resources/images/', get_logo_colour(), '/downloads-256.png'))
+            'resources/media/', get_logo_colour(), '/downloads-256.png'))
 
     add_directory_item(name, url, label=subtext, artist=artist, album=album,
                        comment=comment, genre=genre, logo=logo, isfolder=False, contextmenu=contextmenu)
@@ -570,7 +572,8 @@ def add_streams(streams, name=None, logo=None):
         pDialog.update(50, 'Adding stream %d of %d to playlist' % (count + 1, len(streams)), stream)
 
         if name:
-            liz = xbmcgui.ListItem(name, iconImage=logo, thumbnailImage=logo)
+            liz = xbmcgui.ListItem(name)
+            liz.setArt({ 'icon': logo, 'thumb' : logo })
             liz.setInfo('music', {'Title': name})
             playlist.add(url=stream, listitem=liz)
         else:
@@ -595,12 +598,12 @@ def play_streams(streams, name=None, logo=None):
 
 
 def log_error(msg):
-    print '%s: ERROR: %s' % (__addonname__, utils.normalize_unicode(msg))
+    xbmc.log(('%s: ERROR: %s' % (__addonname__, utils.normalize_unicode(msg))))
 
 
 def log_debug(msg, dbglvl):
     if __debuglevel__ >= int(dbglvl):
-        print '%s: DEBUG: %s' % (__addonname__, utils.normalize_unicode(msg))
+        xbmc.log(('%s: DEBUG: %s' % (__addonname__, utils.normalize_unicode(msg))))
 
 
 def get_logo_colour():
@@ -706,6 +709,7 @@ log_debug('Params: %s: %s' % (__path__, __params__), 1)
 
 __category__ = utils.get_value(__params__, 'c')
 __filter__ = utils.get_value(__params__, 'filter')
+
 if __path__ == 'browse':
     try:
         __offset__ = utils.get_value(__params__, 'offset')
@@ -758,7 +762,7 @@ if __path__ == 'browse':
         utils.ok(__addonname__, __settings__.get_string(3011),
                  __settings__.get_string(3010))
         log_error('TuneInError: %s %s' % (e.status, e.fault))
-    except urllib2.URLError as e:
+    except urllib.error.URLError as e:
         utils.ok(__addonname__, __settings__.get_string(3009),
                  __settings__.get_string(3010))
         log_error('URLError: %s' % e)
@@ -778,7 +782,7 @@ elif __path__ == 'downloads':
         utils.ok(__addonname__, __settings__.get_string(3011),
                  __settings__.get_string(3010))
         log_error('TuneInError: %s %s' % (e.status, e.fault))
-    except urllib2.URLError as e:
+    except urllib.error.URLError as e:
         utils.ok(__addonname__, __settings__.get_string(3009),
                  __settings__.get_string(3010))
         log_error('URLError: %s' % e)
@@ -800,7 +804,7 @@ elif __path__ == 'recents':
         utils.ok(__addonname__, __settings__.get_string(3011),
                  __settings__.get_string(3010))
         log_error('TuneInError: %s %s' % (e.status, e.fault))
-    except urllib2.URLError as e:
+    except urllib.error.URLError as e:
         utils.ok(__addonname__, __settings__.get_string(3009),
                  __settings__.get_string(3010))
         log_error('URLError: %s' % e)
@@ -818,7 +822,7 @@ elif __path__ == 'search':
         utils.ok(__addonname__, __settings__.get_string(3011),
                  __settings__.get_string(3010))
         log_error('TuneInError: %s %s' % (e.status, e.fault))
-    except urllib2.URLError as e:
+    except urllib.error.URLError as e:
         utils.ok(__addonname__, __settings__.get_string(3009),
                  __settings__.get_string(3010))
         log_error('URLError: %s' % e)
@@ -862,7 +866,7 @@ elif __path__ == 'custom-url':
         utils.ok(__addonname__, __settings__.get_string(3011),
                  __settings__.get_string(3010))
         log_error('TuneInError: %s %s' % (e.status, e.fault))
-    except urllib2.URLError as e:
+    except urllib.error.URLError as e:
         utils.ok(__addonname__, __settings__.get_string(3009),
                  __settings__.get_string(3010))
         log_error('URLError: %s' % e)
@@ -894,7 +898,7 @@ elif __path__ == 'tune':
         utils.ok(__addonname__, __settings__.get_string(3011),
                  __settings__.get_string(3010))
         log_error('TuneInError: %s %s' % (e.status, e.fault))
-    except urllib2.URLError as e:
+    except urllib.error.URLError as e:
         utils.ok(__addonname__, __settings__.get_string(3009),
                  __settings__.get_string(3010))
         log_error('URLError: %s' % e)
@@ -913,7 +917,7 @@ elif __path__ == 'tune-show':
         utils.ok(__addonname__, __settings__.get_string(3011),
                  __settings__.get_string(3010))
         log_error('TuneInError: %s %s' % (e.status, e.fault))
-    except urllib2.URLError as e:
+    except urllib.error.URLError as e:
         utils.ok(__addonname__, __settings__.get_string(3009),
                  __settings__.get_string(3010))
         log_error('URLError: %s' % e)
@@ -946,7 +950,7 @@ elif __path__ == 'add' or __path__ == 'remove' or __path__ == 'up' or __path__ =
             utils.ok(__addonname__, __settings__.get_string(
                 3011), __settings__.get_string(3010))
             log_error('TuneInError: %s %s' % (e.status, e.fault))
-        except urllib2.URLError as e:
+        except urllib.error.URLError as e:
             utils.ok(__addonname__, __settings__.get_string(
                 3009), __settings__.get_string(3010))
             log_error('URLError: %s' % e)
@@ -988,7 +992,7 @@ elif __path__ == 'download':
                 if __debuglevel__ > 0:
                     dbg = 'True'
                 command = 'XBMC.RunScript(%s, %s, %s, %s, %s, %s)' % (
-                    script, url, urllib.quote_plus(downloadpath), __addonid__, True, dbg)
+                    script, url, urllib.parse.quote_plus(downloadpath), __addonid__, True, dbg)
                 log_debug('Execute builtin command: %s' % command, 3)
                 xbmc.executebuiltin(command)
             else:
@@ -1036,11 +1040,11 @@ else:
             1011), 'XBMC.RunPlugin(%s?path=refresh)' % (__settings__.get_argv(0), ))]
 
         iconImage = __settings__.get_path(
-            '%s%s%s' % ('resources/images/', get_logo_colour(), '/favourites-32.png'))
+            '%s%s%s' % ('resources/media/', get_logo_colour(), '/favourites-32.png'))
         thumbnailImage = __settings__.get_path(
-            '%s%s%s' % ('resources/images/', get_logo_colour(), '/favourites-256.png'))
-        liz = xbmcgui.ListItem(
-            __settings__.get_string(1000), iconImage=iconImage, thumbnailImage=thumbnailImage)
+            '%s%s%s' % ('resources/media/', get_logo_colour(), '/favourites-256.png'))
+        liz = xbmcgui.ListItem(__settings__.get_string(1000))
+        liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
         liz.addContextMenuItems(items=contextmenu, replaceItems=True)
         if __settings__.get('fanart') == "true":
             liz.setProperty('fanart_image', __fanart__)
@@ -1051,11 +1055,11 @@ else:
 
         if _recentscache.len() > 0:
             iconImage = __settings__.get_path('%s%s%s' % (
-                'resources/images/', get_logo_colour(), '/recents-32.png'))
+                'resources/media/', get_logo_colour(), '/recents-32.png'))
             thumbnailImage = __settings__.get_path('%s%s%s' % (
-                'resources/images/', get_logo_colour(), '/recents-256.png'))
-            liz = xbmcgui.ListItem(__settings__.get_string(
-                1001), iconImage=iconImage, thumbnailImage=thumbnailImage)
+                'resources/media/', get_logo_colour(), '/recents-256.png'))
+            liz = xbmcgui.ListItem(__settings__.get_string(1001))
+            liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
             liz.addContextMenuItems(items=contextmenu, replaceItems=True)
             if __settings__.get('fanart') == "true":
                 liz.setProperty('fanart_image', __fanart__)
@@ -1066,11 +1070,11 @@ else:
 
         if __downloadscache__.len() > 0:
             iconImage = __settings__.get_path('%s%s%s' % (
-                'resources/images/', get_logo_colour(), '/downloads-32.png'))
+                'resources/media/', get_logo_colour(), '/downloads-32.png'))
             thumbnailImage = __settings__.get_path('%s%s%s' % (
-                'resources/images/', get_logo_colour(), '/downloads-256.png'))
-            liz = xbmcgui.ListItem(__settings__.get_string(
-                1015), iconImage=iconImage, thumbnailImage=thumbnailImage)
+                'resources/media/', get_logo_colour(), '/downloads-256.png'))
+            liz = xbmcgui.ListItem(__settings__.get_string(1015))
+            liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
             liz.addContextMenuItems(items=contextmenu, replaceItems=True)
             if __settings__.get('fanart') == "true":
                 liz.setProperty('fanart_image', __fanart__)
@@ -1080,11 +1084,11 @@ else:
                 __settings__.get_argv(1)), url=u, listitem=liz, isFolder=True)
 
         iconImage = __settings__.get_path('%s%s%s' % (
-            'resources/images/', get_logo_colour(), '/browse-32.png'))
+            'resources/media/', get_logo_colour(), '/browse-32.png'))
         thumbnailImage = __settings__.get_path('%s%s%s' % (
-            'resources/images/', get_logo_colour(), '/browse-256.png'))
-        liz = xbmcgui.ListItem(
-            __settings__.get_string(1002), iconImage=iconImage, thumbnailImage=thumbnailImage)
+            'resources/media/', get_logo_colour(), '/browse-256.png'))
+        liz = xbmcgui.ListItem(__settings__.get_string(1002))
+        liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
         liz.addContextMenuItems(items=contextmenu, replaceItems=True)
         if __settings__.get('fanart') == "true":
             liz.setProperty('fanart_image', __fanart__)
@@ -1094,11 +1098,11 @@ else:
             __settings__.get_argv(1)), url=u, listitem=liz, isFolder=True)
 
         iconImage = __settings__.get_path('%s%s%s' % (
-            'resources/images/', get_logo_colour(), '/search-32.png'))
+            'resources/media/', get_logo_colour(), '/search-32.png'))
         thumbnailImage = __settings__.get_path('%s%s%s' % (
-            'resources/images/', get_logo_colour(), '/search-256.png')) 
-        liz = xbmcgui.ListItem(
-            __settings__.get_string(1003), iconImage=iconImage, thumbnailImage=thumbnailImage)
+            'resources/media/', get_logo_colour(), '/search-256.png')) 
+        liz = xbmcgui.ListItem(__settings__.get_string(1003))
+        liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
         liz.addContextMenuItems(items=contextmenu, replaceItems=True)
         if __settings__.get('fanart') == "true":
             liz.setProperty('fanart_image', __fanart__)
@@ -1108,11 +1112,11 @@ else:
             __settings__.get_argv(1)), url=u, listitem=liz, isFolder=True)
 
         iconImage = __settings__.get_path('%s%s%s' % (
-            'resources/images/', get_logo_colour(), '/stream-32.png'))
+            'resources/media/', get_logo_colour(), '/stream-32.png'))
         thumbnailImage = __settings__.get_path('%s%s%s' % (
-            'resources/images/', get_logo_colour(), '/stream-256.png')) 
-        liz = xbmcgui.ListItem(
-            __settings__.get_string(1006), iconImage=iconImage, thumbnailImage=thumbnailImage)
+            'resources/media/', get_logo_colour(), '/stream-256.png')) 
+        liz = xbmcgui.ListItem(__settings__.get_string(1006))
+        liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
         liz.setProperty('IsPlayable', 'true')
         liz.addContextMenuItems(items=contextmenu, replaceItems=True)
         if __settings__.get('fanart') == "true":

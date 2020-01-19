@@ -22,11 +22,12 @@
 import sys
 import os
 
-import urllib
-import urllib2
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
 import re
+import unicodedata
 
-import ConfigParser
+import configparser
 import xml.dom.minidom as minidom
 
 if sys.version_info >= (2, 7):
@@ -58,7 +59,7 @@ class TuneIn:
 
     def log_debug(self, msg):
         if self._debug is True:
-            print 'TuneIn Library: DEBUG: %s' % msg
+            print(('TuneIn Library: DEBUG: %s' % msg))
 
     def __init__(self, partnerid, serial=None, locale="en-GB", formats=None, https=True, debug=False):
         if https is False:
@@ -93,14 +94,14 @@ class TuneIn:
                 params[param['param']] = param['value']
 
         url = '%s%s%s?%s' % (
-            self._protocol, BASE_URL, method, urllib.urlencode(params))
+            self._protocol, BASE_URL, method, urllib.parse.urlencode(params))
         self.log_debug('URL: %s' % url)
         return url
 
     def __call_tunein(self, method, params=None):
         url = self.__add_params_to_url(method, params)
-        req = urllib2.Request(url)
-        f = urllib2.urlopen(req)
+        req = urllib.request.Request(url)
+        f = urllib.request.urlopen(req)
         result = _json.load(f)
         f.close()
         return result
@@ -109,10 +110,11 @@ class TuneIn:
         self.log_debug('__parse_asf')
         self.log_debug('url: %s' % url)
         streams = []
-        req = urllib2.Request(url)
-        f = urllib2.urlopen(req)
-        config = ConfigParser.RawConfigParser()
-        config.readfp(f)
+        req = urllib.request.Request(url)
+        f = urllib.request.urlopen(req)
+        filetext = f.read().decode('ascii', 'ignore')
+        config = configparser.RawConfigParser()
+        config.read_string(filetext)
         references = config.items('Reference')
         for ref in references:
             streams.append(ref[1])
@@ -123,8 +125,8 @@ class TuneIn:
         self.log_debug('__parse_asx')
         self.log_debug('url: %s' % url)
         streams = []
-        req = urllib2.Request(url)
-        f = urllib2.urlopen(req)
+        req = urllib.request.Request(url)
+        f = urllib.request.urlopen(req)
         xmlstr = f.read().decode('ascii', 'ignore')
         dom = minidom.parseString(xmlstr)
         asx = dom.childNodes[0]
@@ -146,8 +148,8 @@ class TuneIn:
         self.log_debug('__parse_m3u')
         self.log_debug('url: %s' % url)
         streams = []
-        req = urllib2.Request(url)
-        f = urllib2.urlopen(req)
+        req = urllib.request.Request(url)
+        f = urllib.request.urlopen(req)
         for line in f:
             if len(line.strip()) > 0 and not line.strip().startswith('#'):
                 streams.append(line.strip())
@@ -158,10 +160,11 @@ class TuneIn:
         self.log_debug('__parse_pls')
         self.log_debug('url: %s' % url)
         streams = []
-        req = urllib2.Request(url)
-        f = urllib2.urlopen(req)
-        config = ConfigParser.RawConfigParser()
-        config.readfp(f)
+        req = urllib.request.Request(url)
+        f = urllib.request.urlopen(req)
+        filetext = f.read().decode('ascii', 'ignore')
+        config = configparser.RawConfigParser()
+        config.read_string(filetext)
         numentries = config.getint('playlist', 'NumberOfEntries')
         while (numentries > 0):
             streams.append(
@@ -778,15 +781,15 @@ class TuneIn:
         if (not self.is_station_id(id) and not self.is_topic_id(id)):
             raise TuneIn.TuneInError(-1, 'Id is not of the correct type.')
         params = [{'param': 'id', 'value': id}]
-        req = urllib2.Request(
+        req = urllib.request.Request(
             self.__add_params_to_url('Tune.ashx', params, addrender=False))
-        f = urllib2.urlopen(req)
+        f = urllib.request.urlopen(req)
 
         self.log_debug('First pass of streams.')
 
         streams = []
         for stream in f:
-            stream = stream.rsplit()[0]
+            stream = stream.rsplit()[0].decode("utf-8")
             self.log_debug('stream: %s' % stream)
             (filepath, filename) = os.path.split(stream)
             (shortname, extension) = os.path.splitext(filename)
@@ -814,12 +817,25 @@ class TuneIn:
                 ''' StreamTheWorld Support
                 '''
                 self.log_debug('StreamTheWorld stream')
-                pattern = re.compile('(.*)callsign\=(.*)$')
-                result = pattern.match(filename)
-                if (result):
-                    stw = streamtheworld.StreamTheWorld(result.group(2))
-                    stw_url = stw.get_stream_url(result.group(2))
-                    streams.append(stw_url)
+                if (filepath.endswith('pls')):
+                    self.log_debug('PLS Playlist')
+                    for stream in self.__parse_pls(stream):
+                        streams.append(stream)
+                elif (filepath.endswith('asx')):
+                    self.log_debug('ASX Playlist')
+                    for stream in self.__parse_asx(stream):
+                        streams.append(stream)
+                elif (filepath.endswith('.m3u')):
+                    self.log_debug('M3U Playlist')
+                    for stream in self.__parse_m3u(stream):
+                        streams.append(stream)
+                else:
+                    pattern = re.compile('(.*)callsign\=(.*)$')
+                    result = pattern.match(filename)
+                    if (result):
+                        stw = streamtheworld.StreamTheWorld(result.group(2))
+                        stw_url = stw.get_stream_url(result.group(2))
+                        streams.append(stw_url)
             elif (stream.find('player.amri.ca') != -1):
                 ''' Astral Radio Support
                 '''
@@ -830,13 +846,13 @@ class TuneIn:
             else:
                 self.log_debug('Unknown stream')
                 try:
-                    request = urllib2.Request(stream)
-                    opener = urllib2.build_opener()
+                    request = urllib.request.Request(stream)
+                    opener = urllib.request.build_opener()
                     f = opener.open(request)
                     if f.url != stream:
                         stream = f.url
                         streams.append(stream)
-                    elif f.info().gettype() == 'video/x-ms-asf':
+                    elif f.info().get_content_type() == 'video/x-ms-asf':
                         try:
                             for stream in self.__parse_asf(stream):
                                 streams.append(stream)
@@ -848,7 +864,7 @@ class TuneIn:
                                 pass
                     else:
                         streams.append(stream)
-                except urllib2.URLError as e:
+                except urllib.error.URLError as e:
                     self.log_debug('Ignoring URLError: %s' % e)
                     streams.append(stream)
 
