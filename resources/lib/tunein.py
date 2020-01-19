@@ -852,7 +852,7 @@ class TuneIn:
                     if f.url != stream:
                         stream = f.url
                         streams.append(stream)
-                    elif f.info().gettype() == 'video/x-ms-asf':
+                    elif f.info().get_content_type() == 'video/x-ms-asf':
                         try:
                             for stream in self.__parse_asf(stream):
                                 streams.append(stream)
