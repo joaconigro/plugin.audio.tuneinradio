@@ -31,7 +31,7 @@ def normalize_unicode(text):
         return text
     if not text or len(text) == 0:
         return ''
-    return unicodedata.normalize('NFKD', text).encode('ascii', 'ignore')
+    return unicodedata.normalize('NFKD', text) #.encode('ascii', 'ignore')
 
 
 def check_value(value):

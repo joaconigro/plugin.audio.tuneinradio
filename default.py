@@ -33,6 +33,7 @@ import resources.lib.kodidownload as download
 import resources.lib.kodisettings as settings
 import resources.lib.kodiutils as utils
 
+# import web_pdb; web_pdb.set_trace()
 
 def get_max_preset_num(elementslist):
     maxpresetnum = 0
@@ -598,13 +599,11 @@ def play_streams(streams, name=None, logo=None):
 
 def log_error(msg):
     xbmc.log(('%s: ERROR: %s' % (__addonname__, utils.normalize_unicode(msg))))
-    # print(('%s: ERROR: %s' % (__addonname__, utils.normalize_unicode(msg))))
 
 
 def log_debug(msg, dbglvl):
     if __debuglevel__ >= int(dbglvl):
-        xbmc.log(('%s: ERROR: %s' % (__addonname__, utils.normalize_unicode(msg))))
-        # print(('%s: DEBUG: %s' % (__addonname__, utils.normalize_unicode(msg))))
+        xbmc.log(('%s: DEBUG: %s' % (__addonname__, utils.normalize_unicode(msg))))
 
 
 def get_logo_colour():
@@ -710,6 +709,7 @@ log_debug('Params: %s: %s' % (__path__, __params__), 1)
 
 __category__ = utils.get_value(__params__, 'c')
 __filter__ = utils.get_value(__params__, 'filter')
+
 if __path__ == 'browse':
     try:
         __offset__ = utils.get_value(__params__, 'offset')
