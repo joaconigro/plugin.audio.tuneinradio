@@ -5,7 +5,7 @@
 		<setting id="password" type="text" option="hidden" label="2001" enable="!eq(-1,)" default=""/>
 		<setting id="featured" type="bool" label="2015" default="true"/>
 		<setting id="local" type="bool" label="2016" default="true"/>
-		<setting id="locale" type="labelenum" label="2038" values="en-GB|es-ES" default="en-GB"/>
+		<setting id="locale" type="labelenum" label="2038" values="ar-SA|cs-CZ|da-DK|nl-NL|fi-FI|fr-FR|de-DE|el-GR|hi-IN|hu-HU|it-IT|ja-JP|ko-KR|pl-PL|pt-PT|ru-RU|zh-CN|es-ES|sv-SV|zh-TW|tr-TR|en-GB|en-US" default="en-GB"/>
 		<setting id="latlon" type="text" label="2037" default=""/>
 	</category>
 	<category label="2051">
