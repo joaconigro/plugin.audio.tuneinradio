@@ -34,7 +34,7 @@ import resources.lib.kodidownload as download
 import resources.lib.kodisettings as settings
 import resources.lib.kodiutils as utils
 
-import web_pdb; web_pdb.set_trace()
+# import web_pdb; web_pdb.set_trace()
 
 def get_max_preset_num(elementslist):
     maxpresetnum = 0
