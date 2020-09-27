@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.audio.tuneinradio" name="TuneIn Radio" version="4.0.0" provider-name="joaco">
+<addon id="plugin.audio.tuneinradio" name="TuneIn Radio" version="4.0.0" provider-name="joaconigro">
 	<requires>
 		<import addon="xbmc.python" version="3.0.0"/>
-		<import addon="script.module.simplejson" version="3.16.1"/>
-		<!-- <import addon="script.module.web-pdb" /> -->
+		<import addon="script.module.simplejson" version="3.17.0"/>
+		<import addon="script.module.web-pdb" />
 	</requires>
-	<extension point="xbmc.python.pluginsource" library="default.py">
+	<extension point="xbmc.python.pluginsource" library="addon.py">
 		<provides>audio</provides>
 	</extension>
 	<extension point="xbmc.addon.metadata">
-        <language></language>
+        <language>en es</language>
         <platform>all</platform>
         <forum></forum>
-        <website></website>
+        <website>https://github.com/joaconigro/plugin.audio.tuneinradio</website>
         <email>joaquinnigro@gmail.com</email>
 		<summary lang="en_GB">TuneIn Radio</summary>
 		<summary lang="es_ES">TuneIn Radio</summary>
@@ -21,9 +21,9 @@
 		<license>MIT</license>
 		<website>https://github.com/joaconigro/plugin.audio.tuneinradio</website>
 		<source>https://github.com/joaconigro/plugin.audio.tuneinradio</source>
-	</extension>
-	<assets>
-        <icon>resources/icon.png</icon>
-        <fanart>resources/fanart.jpg</fanart>
-    </assets>
+		<assets>
+        	<icon>resources/icon.png</icon>
+        	<fanart>resources/fanart.jpg</fanart>
+    	</assets>
+	</extension>	
 </addon>
