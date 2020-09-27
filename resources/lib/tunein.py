@@ -54,8 +54,8 @@ class TuneIn:
 
         def __str__(self):
             return repr(self.status)
-            return repr(self.fault)
-            return repr(self.faultcode)
+            # return repr(self.fault)
+            # return repr(self.faultcode)
 
     def log_debug(self, msg):
         if self._debug is True:

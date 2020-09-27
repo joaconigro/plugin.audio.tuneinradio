@@ -21,7 +21,7 @@
 		<setting id="downloadbackground" type="bool" label="2018" default="false"/>
 	</category>
 	<category label="2053">
-		<setting id="format-aac" type="bool" label="2019" default="false"/>
+		<setting id="format-aac" type="bool" label="2019" default="true"/>
 		<setting id="format-am" type="bool" label="2024" default="false"/>
 		<setting id="format-dab" type="bool" label="2025" default="false"/>
 		<setting id="format-fm" type="bool" label="2026" default="false"/>

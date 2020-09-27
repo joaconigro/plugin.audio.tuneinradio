@@ -75,9 +75,9 @@ def notification(header, message):
     xbmc.executebuiltin(command)
 
 
-def ok(heading, line1, line2='', line3=''):
+def ok(heading, message, line1='', line2=''):
     dialog = xbmcgui.Dialog()
-    dialog.ok(heading, line1, line2, line3)
+    dialog.ok(heading, message + '\n' + line1 + '\n' + line2)
 
 
 def select(heading, list):

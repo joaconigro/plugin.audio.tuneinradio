@@ -26,6 +26,7 @@ import os
 import urllib.request, urllib.parse, urllib.error
 import urllib.request, urllib.error, urllib.parse
 import re
+import sys
 
 import resources.lib.cache as cache
 import resources.lib.tunein as tunein
@@ -75,7 +76,7 @@ def reorder_preset_elements(elementslist):
     return newelementslist
 
 
-def process_tunein_json(elements):
+def process_tunein_json(elements, presets=True):
     log_debug('process_tunein_json', 2)
 
     elementslist = []
@@ -567,20 +568,22 @@ def add_streams(streams, name=None, logo=None):
     pDialog.create(__addonname__, 'Creating playlist')
     playlist = xbmc.PlayList(xbmc.PLAYLIST_MUSIC)
     playlist.clear()
+    listitems = []
     for count, stream in enumerate(streams):
         log_debug('Adding stream %s to playlist.' % stream, 1)
-        pDialog.update(50, 'Adding stream %d of %d to playlist' % (count + 1, len(streams)), stream)
+        pDialog.update(50, 'Adding stream %d of %d to playlist' % (count + 1, len(streams)))
 
         if name:
             liz = xbmcgui.ListItem(name)
             liz.setArt({ 'icon': logo, 'thumb' : logo })
             liz.setInfo('music', {'Title': name})
+            listitems.append(liz)
             playlist.add(url=stream, listitem=liz)
         else:
             playlist.add(url=stream)
     pDialog.close()
     if len(playlist) > 0:
-        xbmcplugin.setResolvedUrl(handle=int(__settings__.get_argv(1)), succeeded=True, listitem=playlist[0])
+        xbmcplugin.setResolvedUrl(handle=int(__settings__.get_argv(1)), succeeded=True, listitem=listitems[0])
     else:
         xbmcplugin.setResolvedUrl(handle=int(__settings__.get_argv(1)), succeeded=False, listitem=None)
 
@@ -722,7 +725,7 @@ if __path__ == 'browse':
                     3001), __settings__.get_string(3002))
             else:
                 results = __tunein__.browse_presets(username=__username__)
-                process_tunein_json(results)
+                process_tunein_json(results, True)
                 xbmcplugin.endOfDirectory(int(__settings__.get_argv(1)))
 
         # Browse for a station/show/topic/category.
