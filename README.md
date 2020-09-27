@@ -22,8 +22,10 @@ Screenshots
 
 Installation
 ------------
-Download the latest zip file and install the addon. 
-See [http://kodi.wiki/view/HOW-TO:Install_an_Add-on_from_a_zip_file][1] for more details on installing addons from zip file.
+Download the corresponding zip file [from here][1] according to your Kodi version and install the addon. 
+Versions 4.x or higher are for Matrix (>= 19).
+Versions 3.x are for Leia and older (< 19).
+See [How to install an Add-on from zip file][2] for more details on installing addons from zip file.
 
 Usage
 -----
@@ -43,7 +45,7 @@ The following settings are available.
 
 **Display TuneIn Local Station(s)**: If set to true display TuneIn local stations. Default: true
 
-**Language**: Language used by TuneIn. Allowed values: ar-SA|cs-CZ|da-DK|nl-NL|fi-FI|fr-FR|de-DE|el-GR|hi-IN|hu-HU|it-IT|ja-JP|ko-KR|pl-PL|pt-PT|ru-RU|zh-CN|es-ES|sv-SV|zh-TW|tr-TR|en-GB|en-US. Default: en-GB
+**Language**: Language used by TuneIn. Allowed values: ar-SA|cs-CZ|da-DK|nl-NL|fi-FI|fr-FR|de-DE|el-GR|hi-IN|hu-HU|it-IT|ja-JP|ko-KR|pl-PL|pt-PT|ru-RU|zh-CN|es-ES|sv-SV|zh-TW|tr-TR|en-GB|en-US. Default: en-GB. **Note**: This isn't the add-on interface language. Add-on language will be setted automatically with Kodi interface language, and the only translations available, for now, are English and Spanish.
 
 **Latitude/Longitude**: A specific latitude/longitude pair, comma separated, used to target local radio.
 
@@ -118,5 +120,6 @@ FAQ
 2. The TuneIn is providing an audio stream that Kodi can not play.</li>
 3. There's a bug in my plugin.
 
-[1]: http://kodi.wiki/view/HOW-TO:Install_an_Add-on_from_a_zip_file
+[1]: https://github.com/joaconigro/plugin.audio.tuneinradio/releases
+[2]: https://kodi.wiki/view/Add-on_manager#How_to_install_from_a_ZIP_file
 
