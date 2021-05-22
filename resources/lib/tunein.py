@@ -110,67 +110,111 @@ class TuneIn:
         self.log_debug('__parse_asf')
         self.log_debug('url: %s' % url)
         streams = []
-        req = urllib.request.Request(url)
-        f = urllib.request.urlopen(req)
-        filetext = f.read().decode('ascii', 'ignore')
-        config = configparser.RawConfigParser()
-        config.read_string(filetext)
-        references = config.items('Reference')
-        for ref in references:
-            streams.append(ref[1])
-        f.close()
+        try:
+            req = urllib.request.Request(url)
+            f = urllib.request.urlopen(req)
+            filetext = f.read().decode('ascii', 'ignore')
+            config = configparser.RawConfigParser()
+            config.read_string(filetext)
+            references = config.items('Reference')
+            for ref in references:
+                streams.append(ref[1])
+            f.close()
+        except:
+            self.log_debug('Failed to parse this %s' % url)
         return streams
 
     def __parse_asx(self, url):
         self.log_debug('__parse_asx')
         self.log_debug('url: %s' % url)
         streams = []
-        req = urllib.request.Request(url)
-        f = urllib.request.urlopen(req)
-        xmlstr = f.read().decode('ascii', 'ignore')
-        dom = minidom.parseString(xmlstr)
-        asx = dom.childNodes[0]
-        for node in asx.childNodes:
-            if (str(node.localName).lower() == 'entryref' and node.hasAttribute('href')):
-                streams.append(node.getAttribute('href'))
-            elif (str(node.localName).lower() == 'entryref' and node.hasAttribute('HREF')):
-                streams.append(node.getAttribute('HREF'))
-            elif (str(node.localName).lower() == 'entry'):
-                for subnode in node.childNodes:
-                    if (str(subnode.localName).lower() == 'ref' and subnode.hasAttribute('href') and not subnode.getAttribute('href') in streams):
-                        streams.append(subnode.getAttribute('href'))
-                    elif (str(subnode.localName).lower() == 'ref' and subnode.hasAttribute('HREF') and not subnode.getAttribute('HREF') in streams):
-                        streams.append(subnode.getAttribute('HREF'))
-        f.close()
+        try:
+            req = urllib.request.Request(url)
+            f = urllib.request.urlopen(req)
+            xmlstr = f.read().decode('ascii', 'ignore')
+            dom = minidom.parseString(xmlstr)
+            asx = dom.childNodes[0]
+            for node in asx.childNodes:
+                if (str(node.localName).lower() == 'entryref' and node.hasAttribute('href')):
+                    streams.append(node.getAttribute('href'))
+                elif (str(node.localName).lower() == 'entryref' and node.hasAttribute('HREF')):
+                    streams.append(node.getAttribute('HREF'))
+                elif (str(node.localName).lower() == 'entry'):
+                    for subnode in node.childNodes:
+                        if (str(subnode.localName).lower() == 'ref' and subnode.hasAttribute('href') and not subnode.getAttribute('href') in streams):
+                            streams.append(subnode.getAttribute('href'))
+                        elif (str(subnode.localName).lower() == 'ref' and subnode.hasAttribute('HREF') and not subnode.getAttribute('HREF') in streams):
+                            streams.append(subnode.getAttribute('HREF'))
+            f.close()
+        except:
+            self.log_debug('Failed to parse this %s' % url)
         return streams
 
     def __parse_m3u(self, url):
         self.log_debug('__parse_m3u')
         self.log_debug('url: %s' % url)
         streams = []
-        req = urllib.request.Request(url)
-        f = urllib.request.urlopen(req)
-        for line in f:
-            if len(line.strip()) > 0 and not line.strip().startswith('#'):
-                streams.append(line.strip())
-        f.close()
+        try:
+            req = urllib.request.Request(url)
+            f = urllib.request.urlopen(req)
+            for line in f:
+                if len(line.strip()) > 0 and not line.strip().startswith(b'#'):
+                    streams.append(line.strip())
+            f.close()
+        except:
+            self.log_debug('Failed to parse this %s' % url)
         return streams
 
     def __parse_pls(self, url):
         self.log_debug('__parse_pls')
         self.log_debug('url: %s' % url)
         streams = []
-        req = urllib.request.Request(url)
-        f = urllib.request.urlopen(req)
-        filetext = f.read().decode('ascii', 'ignore')
-        config = configparser.RawConfigParser()
-        config.read_string(filetext)
-        numentries = config.getint('playlist', 'NumberOfEntries')
-        while (numentries > 0):
-            streams.append(
-                config.get('playlist', 'File' + str(numentries)))
-            numentries -= 1
-        f.close()
+        try:
+            req = urllib.request.Request(url)
+            f = urllib.request.urlopen(req)
+            filetext = f.read().decode('ascii', 'ignore')
+            config = configparser.RawConfigParser()
+            config.read_string(filetext)
+            numentries = config.getint('playlist', 'NumberOfEntries')
+            while (numentries > 0):
+                streams.append(
+                    config.get('playlist', 'File' + str(numentries)))
+                numentries -= 1
+            f.close()
+        except:
+            self.log_debug('Failed to parse this %s' % url)
+        return streams
+
+    def __parseStreamTheWorld(self, stream, filename, filepath):
+        ''' StreamTheWorld Support
+        '''
+        self.log_debug('StreamTheWorld stream')
+        streams = []
+        result = stream.find("?")
+        if result > -1:
+            address = stream.split("?")[0].lower()
+            if address.endswith('mp3') or address.endswith('aac'):
+                streams.append(stream)
+            else:
+                if (filepath.endswith('pls')):
+                    self.log_debug('PLS Playlist')
+                    for stream in self.__parse_pls(stream):
+                        streams.append(stream)
+                elif (filepath.endswith('asx')):
+                    self.log_debug('ASX Playlist')
+                    for stream in self.__parse_asx(stream):
+                        streams.append(stream)
+                elif (filepath.endswith('.m3u')):
+                    self.log_debug('M3U Playlist')
+                    for stream in self.__parse_m3u(stream):
+                        streams.append(stream)
+                else:
+                    pattern = re.compile('(.*)callsign\=(.*)$')
+                    result = pattern.match(filename)
+                    if (result):
+                        stw = streamtheworld.StreamTheWorld(result.group(2))
+                        stw_url = stw.get_stream_url(result.group(2))
+                        streams.append(stw_url)
         return streams
 
     def __result_ok(self, result):
@@ -814,28 +858,8 @@ class TuneIn:
                 for stream in self.__parse_m3u(stream):
                     streams.append(stream)
             elif (re.search('streamtheworld.com', filepath)):
-                ''' StreamTheWorld Support
-                '''
-                self.log_debug('StreamTheWorld stream')
-                if (filepath.endswith('pls')):
-                    self.log_debug('PLS Playlist')
-                    for stream in self.__parse_pls(stream):
-                        streams.append(stream)
-                elif (filepath.endswith('asx')):
-                    self.log_debug('ASX Playlist')
-                    for stream in self.__parse_asx(stream):
-                        streams.append(stream)
-                elif (filepath.endswith('.m3u')):
-                    self.log_debug('M3U Playlist')
-                    for stream in self.__parse_m3u(stream):
-                        streams.append(stream)
-                else:
-                    pattern = re.compile('(.*)callsign\=(.*)$')
-                    result = pattern.match(filename)
-                    if (result):
-                        stw = streamtheworld.StreamTheWorld(result.group(2))
-                        stw_url = stw.get_stream_url(result.group(2))
-                        streams.append(stw_url)
+                for stream in self.__parseStreamTheWorld(stream, filename, filepath):
+                    streams.append(stream)
             elif (stream.find('player.amri.ca') != -1):
                 ''' Astral Radio Support
                 '''
@@ -901,7 +925,7 @@ class TuneIn:
                 self.log_debug('Unknown stream')
                 streams.append(stream)
 
-        return streams
+        return streams   
 
     def tune_ebrowse(self, id):
         '''Returns individual links for streams associated with the station.

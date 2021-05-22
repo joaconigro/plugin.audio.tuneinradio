@@ -22,13 +22,16 @@
 import os
 import time
 
-
 class Cache:
-    def __init__(self, path, filename, max=None):
+    def __init__(self, path, filename, useUtf8=False, max=None):
         if not os.path.exists(path):
             os.makedirs(path)
         self.cachedb = os.path.join(path, filename)
         self.max = max
+        if (useUtf8):
+            self.encoding = 'utf-8'
+        else:
+            self.encoding = None
 
     def add(self, item, field=None):
         cache = self.get()
@@ -41,12 +44,12 @@ class Cache:
         if self.max and len(cache) >= self.max:
             cache.pop(0)
         cache.append(item)
-        open(self.cachedb, 'w').write(repr(cache))
+        open(self.cachedb, 'w', encoding=self.encoding).write(repr(cache))
         return True
 
     def get(self):
         if os.path.isfile(self.cachedb):
-            return eval(open(self.cachedb, 'r').read())
+            return eval(open(self.cachedb, 'r', encoding=self.encoding).read())
         return []
 
     def remove(self, item):
@@ -54,7 +57,7 @@ class Cache:
         if cache.count(item) == 0:
             return
         cache.remove(item)
-        open(self.cachedb, 'w').write(repr(cache))
+        open(self.cachedb, 'w', encoding=self.encoding).write(repr(cache))
         return
 
     def len(self):
@@ -63,7 +66,7 @@ class Cache:
 
     def clear(self):
         cache = []
-        open(self.cachedb, 'w').write(repr(cache))
+        open(self.cachedb, 'w', encoding=self.encoding).write(repr(cache))
         return
 
     def lastupdate(self):
