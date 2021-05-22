@@ -107,6 +107,8 @@ The following settings are available.
 
 **HTTPS**: Use to set protocol (http or https). Default: true
 
+**Use UTF-8 encoding** Use to read list. Default: false. **You must set to true on Android devices**.
+
 **Update Cache (hrs)**: How often to contact TuneIn to update format and genres cache. Default: 24
 
 FAQ
