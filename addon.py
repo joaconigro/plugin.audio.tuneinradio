@@ -34,7 +34,7 @@ import resources.lib.kodidownload as download
 import resources.lib.kodisettings as settings
 import resources.lib.kodiutils as utils
 
-# import web_pdb; web_pdb.set_trace()
+#import web_pdb; web_pdb.set_trace()
 
 def get_max_preset_num(elementslist):
     maxpresetnum = 0
@@ -653,12 +653,12 @@ __author__ = 'Brian Hornsby'
 __settings__ = settings.Settings(__addonid__, sys.argv)
 
 # Initialise caches.
-_recentscache = cache.Cache(
-    __settings__.get_datapath(), 'recents.db', __settings__.get('recents'))
-__downloadscache__ = cache.Cache(__settings__.get_datapath(), 'downloads.db')
-__showscache__ = cache.Cache(__settings__.get_datapath(), 'shows.db')
-__genrescache__ = cache.Cache(__settings__.get_datapath(), 'genres.db')
-__formatscache__ = cache.Cache(__settings__.get_datapath(), 'formats.db')
+__useUtf8Encoding__ = __settings__.get('encoding-utf8') == "true"
+_recentscache = cache.Cache(__settings__.get_datapath(), 'recents.db', __useUtf8Encoding__, __settings__.get('recents'))
+__downloadscache__ = cache.Cache(__settings__.get_datapath(), 'downloads.db', __useUtf8Encoding__)
+__showscache__ = cache.Cache(__settings__.get_datapath(), 'shows.db', __useUtf8Encoding__)
+__genrescache__ = cache.Cache(__settings__.get_datapath(), 'genres.db', __useUtf8Encoding__)
+__formatscache__ = cache.Cache(__settings__.get_datapath(), 'formats.db', __useUtf8Encoding__)
 
 # Get addon information.
 __addonname__ = __settings__.get_name()

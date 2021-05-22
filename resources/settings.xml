@@ -40,6 +40,7 @@
 	</category>
 	<category label="2054">
 		<setting id="https" type="bool" label="2013" default="true"/>
+		<setting id="encoding-utf8" type="bool" label="2041" default="false"/>
 		<setting id="cacheupdate" type="number" label="2036" default="24"/>
 		<setting id="debuglevel" type="enum" label="2003" default="0" lvalues="2004|2005|2006|2007"/>
 	</category>

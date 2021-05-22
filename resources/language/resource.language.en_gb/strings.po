@@ -244,6 +244,10 @@ msgctxt "#2040"
 msgid "Only show TuneIn favourites"
 msgstr "Only show TuneIn favourites"
 
+msgctxt "#2041"
+msgid "Use UTF-8 enconding"
+msgstr "Use UTF-8 enconding"
+
 msgctxt "#2050"
 msgid "TuneIn"
 msgstr "TuneIn"
