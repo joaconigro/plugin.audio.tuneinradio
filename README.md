@@ -1,5 +1,7 @@
 TuneIn Radio for Kodi
 =====================
+[![CodeQL](https://github.com/joaconigro/plugin.audio.tuneinradio/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/joaconigro/plugin.audio.tuneinradio/actions/workflows/codeql-analysis.yml)
+=====================
 A plugin that allows you to access thousands of radio stations at TuneIn from within Kodi.
 
 Features
