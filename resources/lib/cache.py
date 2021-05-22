@@ -41,12 +41,12 @@ class Cache:
         if self.max and len(cache) >= self.max:
             cache.pop(0)
         cache.append(item)
-        open(self.cachedb, 'w').write(repr(cache))
+        open(self.cachedb, 'w', encoding='utf-8').write(repr(cache))
         return True
 
     def get(self):
         if os.path.isfile(self.cachedb):
-            return eval(open(self.cachedb, 'r').read())
+            return eval(open(self.cachedb, 'r', encoding='utf-8').read())
         return []
 
     def remove(self, item):
@@ -54,7 +54,7 @@ class Cache:
         if cache.count(item) == 0:
             return
         cache.remove(item)
-        open(self.cachedb, 'w').write(repr(cache))
+        open(self.cachedb, 'w', encoding='utf-8').write(repr(cache))
         return
 
     def len(self):
@@ -63,7 +63,7 @@ class Cache:
 
     def clear(self):
         cache = []
-        open(self.cachedb, 'w').write(repr(cache))
+        open(self.cachedb, 'w', encoding='utf-8').write(repr(cache))
         return
 
     def lastupdate(self):
