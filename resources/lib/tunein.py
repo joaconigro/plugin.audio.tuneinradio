@@ -110,15 +110,18 @@ class TuneIn:
         self.log_debug('__parse_asf')
         self.log_debug('url: %s' % url)
         streams = []
-        req = urllib.request.Request(url)
-        f = urllib.request.urlopen(req)
-        filetext = f.read().decode('ascii', 'ignore')
-        config = configparser.RawConfigParser()
-        config.read_string(filetext)
-        references = config.items('Reference')
-        for ref in references:
-            streams.append(ref[1])
-        f.close()
+        try:
+            req = urllib.request.Request(url)
+            f = urllib.request.urlopen(req)
+            filetext = f.read().decode('ascii', 'ignore')
+            config = configparser.RawConfigParser()
+            config.read_string(filetext)
+            references = config.items('Reference')
+            for ref in references:
+                streams.append(ref[1])
+            f.close()
+        except:
+            self.log_debug('Failed to parse this %s' % url)
         return streams
 
     def __parse_asx(self, url):
