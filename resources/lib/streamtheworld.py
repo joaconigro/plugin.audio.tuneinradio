@@ -20,8 +20,6 @@
 # */
 
 from random import choice as choise
-import os
-import sys
 import urllib.request, urllib.error, urllib.parse
 import xml.dom.minidom as minidom
 
@@ -75,16 +73,16 @@ class StreamTheWorld:
     #   </mountpoints>
     #</live_stream_config>
 
-    ''' Parse streamtheworld URL to HTTP Stream
-    '''
+    ''' Parse streamtheworld URL to HTTP Stream'''
+    
     def __init__(self, cs):
         self.__cs__ = cs
         return
 
     def __validate_callsign(self, cs, acc=True):
         '''
-                Normal callsign format is 'WWWWAAA', where 'WWWW' is the radio station
-                callsign and 'AAA' is always 'AAC'.
+        Normal callsign format is 'WWWWAAA', where 'WWWW' is the radio station
+        callsign and 'AAA' is always 'AAC'.
         '''
         if not cs or not isinstance(cs, str):
             raise ValueError('callsign \'%s\' is not a string.' % cs)
@@ -95,8 +93,8 @@ class StreamTheWorld:
         return cs
 
     def __make_request(self, callsign):
-        ''' Make a Call to StreamTheWorld API v1.5
-        '''
+        ''' Make a Call to StreamTheWorld API v1.5'''
+
         host = 'playerservices.streamtheworld.com'
         req = urllib.request.Request(
             'http://%s/api/livestream?version=1.5&mount=%s&lang=en' %
@@ -110,16 +108,16 @@ class StreamTheWorld:
         return element.firstChild.data
 
     def __check_status(self, ele):
-        ''' should only be one status element inside a mountpoint
-        '''
+        ''' should only be one status element inside a mountpoint'''
+
         status = ele.getElementsByTagName('status')[0]
         if self.__t(status.getElementsByTagName('status-code')[0]) != '200':
             msg = self.__t(status.getElementsByTagName('status-message')[0])
             raise Exception('Error locating stream: ' + msg)
 
     def __create_stream_urls(self, srcfile):
-        ''' Return an array with all URLs
-        '''
+        ''' Return an array with all URLs'''
+
         doc = minidom.parse(srcfile)
         mp = doc.getElementsByTagName('mountpoint')[0]
         self.__check_status(mp)
@@ -136,8 +134,8 @@ class StreamTheWorld:
         return allurls
 
     def get_stream_url(self, cs):
-        ''' Get one URL from CS
-        '''
+        ''' Get one URL from CS'''
+
         try:
             callsign = self.__validate_callsign(cs)
             req = self.__make_request(callsign)
