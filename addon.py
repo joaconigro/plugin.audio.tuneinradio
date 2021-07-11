@@ -34,7 +34,7 @@ import resources.lib.kodidownload as download
 import resources.lib.kodisettings as settings
 import resources.lib.kodiutils as utils
 
-#import web_pdb; web_pdb.set_trace()
+# import web_pdb; web_pdb.set_trace()
 
 def get_max_preset_num(elementslist):
     maxpresetnum = 0
@@ -638,10 +638,13 @@ def get_formats():
 def get_genre_name(id):
     if id is None or len(id) == 0:
         return ''
-    for genre in __genrescache__.get()[0]:
-        if genre['guide_id'] == id:
-            return genre['text']
-    return ''
+    try:
+        for genre in __genrescache__.get()[0]:
+            if genre['guide_id'] == id:
+                return genre['text']
+        return ''
+    except:
+        return ''
 
 # Set some global values.
 __xbmcrevision__ = xbmc.getInfoLabel('System.BuildVersion')

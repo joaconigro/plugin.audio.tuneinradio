@@ -20,6 +20,7 @@
 # */
 
 import xbmc
+import xbmcvfs
 import xbmcgui
 import unicodedata
 import urllib.request, urllib.parse, urllib.error
@@ -96,7 +97,7 @@ def mac_address():
 
 def add_to_favourites(name, thumb, command):
     try:
-        favourites = xbmc.translatePath('%s/%s' % ('special://profile/', 'favourites.xml'))
+        favourites = xbmcvfs.translatePath('%s/%s' % ('special://profile/', 'favourites.xml'))
         tree = etree.parse(favourites)
         root = tree.getroot()
         favourite = etree.SubElement(root, 'favourite')

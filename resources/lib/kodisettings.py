@@ -20,7 +20,7 @@
 # */
 
 import xbmcaddon
-import xbmc
+import xbmcvfs
 
 
 class Settings:
@@ -48,13 +48,13 @@ class Settings:
         return self.__argv__[idx]
 
     def get_datapath(self, path=''):
-        return xbmc.translatePath('%s/%s' % (self.__datapath__, path))
+        return xbmcvfs.translatePath('%s/%s' % (self.__datapath__, path))
 
     def get_name(self):
         return self.__name__
 
     def get_path(self, path=''):
-        return xbmc.translatePath('%s/%s' % (self.__path__, path))
+        return xbmcvfs.translatePath('%s/%s' % (self.__path__, path))
 
     def get_version(self):
         return self.__version__
