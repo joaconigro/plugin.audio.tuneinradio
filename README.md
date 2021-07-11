@@ -6,8 +6,6 @@ A plugin that allows you to access thousands of radio stations at TuneIn from wi
 
 ## Features
 
---------
-
 - Display TuneIn favourites.
 - Display recently played stations/shows.
 - Download shows and podcasts.
@@ -19,8 +17,6 @@ A plugin that allows you to access thousands of radio stations at TuneIn from wi
 
 ## Installation
 
---------
-
 Download the corresponding zip file [from here][1] according to your Kodi version and install the addon.
 Versions 4.x or higher are for Matrix (>= 19).
 Versions 3.x are for Leia and older (< 19).
@@ -28,12 +24,10 @@ See [How to install an Add-on from zip file][2] for more details on installing a
 
 ## Usage
 
---------
 The TuneIn Radio add-on can be accessed from the Music Addons menu.
 
 ## Settings
 
---------
 The following settings are available.
 
 ### **TuneIn**
@@ -113,8 +107,6 @@ The following settings are available.
 *Update Cache (hrs)*: How often to contact TuneIn to update format and genres cache. Default: 24
 
 ## FAQ
-
---------
 
 **Is this plugin available in a Kodi addons repository?** No
 
