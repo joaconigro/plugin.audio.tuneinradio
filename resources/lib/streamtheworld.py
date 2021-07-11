@@ -73,8 +73,7 @@ class StreamTheWorld:
     #   </mountpoints>
     #</live_stream_config>
 
-    ''' Parse streamtheworld URL to HTTP Stream'''
-    
+    ''' Parse streamtheworld URL to HTTP Stream'''    
     def __init__(self, cs):
         self.__cs__ = cs
         return
@@ -94,7 +93,6 @@ class StreamTheWorld:
 
     def __make_request(self, callsign):
         ''' Make a Call to StreamTheWorld API v1.5'''
-
         host = 'playerservices.streamtheworld.com'
         req = urllib.request.Request(
             'http://%s/api/livestream?version=1.5&mount=%s&lang=en' %
@@ -109,7 +107,6 @@ class StreamTheWorld:
 
     def __check_status(self, ele):
         ''' should only be one status element inside a mountpoint'''
-
         status = ele.getElementsByTagName('status')[0]
         if self.__t(status.getElementsByTagName('status-code')[0]) != '200':
             msg = self.__t(status.getElementsByTagName('status-message')[0])
@@ -117,7 +114,6 @@ class StreamTheWorld:
 
     def __create_stream_urls(self, srcfile):
         ''' Return an array with all URLs'''
-
         doc = minidom.parse(srcfile)
         mp = doc.getElementsByTagName('mountpoint')[0]
         self.__check_status(mp)
@@ -135,7 +131,6 @@ class StreamTheWorld:
 
     def get_stream_url(self, cs):
         ''' Get one URL from CS'''
-
         try:
             callsign = self.__validate_callsign(cs)
             req = self.__make_request(callsign)

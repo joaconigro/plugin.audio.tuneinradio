@@ -45,7 +45,6 @@ class TuneIn:
     class TuneInError(Exception):
 
         ''' Exception raised when an error or invalid response is received.'''
-
         def __init__(self, status, fault, faultcode=''):
             self.status = status
             self.fault = fault
@@ -186,7 +185,6 @@ class TuneIn:
 
     def __parseStreamTheWorld(self, stream, filename, filepath):
         ''' StreamTheWorld Support'''
-
         self.log_debug('StreamTheWorld stream')
         streams = []
         result = stream.find("?")
@@ -236,70 +234,60 @@ class TuneIn:
 
     def is_category_id(self, id):
         ''' Returns True if argument is a TuneIn category id.'''
-
         if (not id or len(id) == 0 or id[0] != 'c' or not id[1:].isdigit()):
             return False
         return True
 
     def is_folder_id(self, id):
         ''' Returns True if argument is a TuneIn folder id.'''
-
         if (not id or len(id) == 0 or id[0] != 'f' or not id[1:].isdigit()):
             return False
         return True
 
     def is_genre_id(self, id):
         ''' Returns True if argument is a TuneIn genre id.'''
-
         if (not id or len(id) == 0 or id[0] != 'g' or not id[1:].isdigit()):
             return False
         return True
 
     def is_artist_id(self, id):
         ''' Returns True if argument is a TuneIn artist id.'''
-
         if (not id or len(id) == 0 or id[0] != 'm' or not id[1:].isdigit()):
             return False
         return True
 
     def is_region_id(self, id):
         ''' Returns True if argument is a TuneIn region id.'''
-
         if (not id or len(id) == 0 or id[0] != 'r' or not id[1:].isdigit()):
             return False
         return True
 
     def is_show_id(self, id):
         ''' Returns True if argument is a TuneIn show id.'''
-
         if (not id or len(id) == 0 or id[0] != 'p' or not id[1:].isdigit()):
             return False
         return True
 
     def is_station_id(self, id):
         ''' Returns True if argument is a TuneIn station id.'''
-
         if (not id or len(id) == 0 or id[0] != 's' or not id[1:].isdigit()):
             return False
         return True
 
     def is_topic_id(self, id):
         ''' Returns True if argument is a TuneIn topic id.'''
-
         if (not id or len(id) == 0 or id[0] != 't' or not id[1:].isdigit()):
             return False
         return True
 
     def is_custom_url_id(self, id):
         ''' Returns True if argument is a TuneIn custom url id.'''
-
         if (not id or len(id) == 0 or id[0] != 'u' or not id[1:].isdigit()):
             return False
         return True
 
     def account_auth(self, username, password):
         '''Verifies credentials associated with a TuneIn account.'''
-
         params = [{'param': 'c', 'value': 'auth'}, {'param': 'username',
                                                     'value': username}, {'param': 'password', 'value': password}]
         result = self.__call_tunein('Account.ashx', params)
@@ -366,7 +354,6 @@ class TuneIn:
 
     def account_remind(self, email):
         '''Sends an account reminder to a registered email address.'''
-
         params = [{'param': 'c', 'value': 'remind'}, {'param':
                                                       'email', 'value': email}]
         result = self.__call_tunein('Account.ashx', params)
@@ -378,7 +365,6 @@ class TuneIn:
 
     def account_reset(self, username=None, email=None):
         '''Provides an opportunity for a user to reset their account password.'''
-
         params = [{'param': 'c', 'value': 'reset'}, {'param': 'username',
                                                      'value': username}, {'param': 'email', 'value': email}]
         result = self.__call_tunein('Account.ashx', params)
@@ -431,7 +417,6 @@ class TuneIn:
 
     def browse(self, channel=None, id=None, filter=None, offset=None, pivot=None, username=None):
         '''Shows a list of the available navigation structures.'''
-
         params = [{'param': 'c', 'value': channel}, {'param': 'id', 'value': id}, {'param': 'filter', 'value': filter}, {
             'param': 'offset', 'value': offset}, {'param': 'pivot', 'value': pivot}, {'param': 'username', 'value': username}]
         result = self.__call_tunein('Browse.ashx', params)
@@ -443,7 +428,6 @@ class TuneIn:
 
     def browse_lang(self, filter=None):
         '''Shows a list of stations based on language.'''
-
         params = [{'param': 'c', 'value': 'lang'}, {'param':
                                                     'filter', 'value': filter}]
         result = self.__call_tunein('Browse.ashx', params)
@@ -455,7 +439,6 @@ class TuneIn:
 
     def browse_station(self, id, detail=None):
         '''Shows a list of recommendations for specified stations.'''
-
         if (not self.is_station_id(id)):
             raise TuneIn.TuneInError(-1, 'Id is not of the correct type.')
         params = [{'param': 'id', 'value': id}, {'param': 'detail',
@@ -469,7 +452,6 @@ class TuneIn:
 
     def browse_schedule(self, id, username=None, start=None, stop=None, forward=None, live=None, offset=None, autodetect=None):
         '''Shows a complete list for the current day or a specified date range.'''
-
         if (not self.is_station_id(id)):
             raise TuneIn.TuneInError(-1, 'Id is not of the correct type.')
         params = [{'param': 'c', 'value': 'schedule'}, {'param': 'id', 'value': id}, {'param': 'username', 'value': username}, {'param': 'start', 'value': start}, {'param': 'stop', 'value': stop}, {
@@ -483,7 +465,6 @@ class TuneIn:
 
     def browse_playlist(self, id, username=None, start=None, stop=None):
         '''Shows a list of songs played for the current day or a specified date range.'''
-
         if (not self.is_station_id(id)):
             raise TuneIn.TuneInError(-1, 'Id is not of the correct type.')
         params = [{'param': 'c', 'value': 'playlist'}, {'param': 'id', 'value': id}, {
@@ -497,7 +478,6 @@ class TuneIn:
 
     def browse_show(self, id):
         '''Shows affiliate networks and genres for a given radio show.'''
-
         if (not self.is_show_id(id)):
             raise TuneIn.TuneInError(-1, 'Id is not of the correct type.')
         params = [{'param': 'id', 'value': id}]
@@ -510,7 +490,6 @@ class TuneIn:
 
     def config_time(self):
         '''Retrieves the current server time and details of the client detected timezone.'''
-
         params = [{'param': 'c', 'value': 'time'}]
         result = self.__call_tunein('Config.ashx', params)
         if (self.__result_ok(result)):
@@ -521,7 +500,6 @@ class TuneIn:
 
     def config_localizedstrings(self):
         '''Retrieve text resources in a particular locale.'''
-
         params = [{'param': 'c', 'value': 'contentQuery'}]
         result = self.__call_tunein('Config.ashx', params)
         if (self.__result_ok(result)):
@@ -545,7 +523,6 @@ class TuneIn:
 
     def describe_nowplaying(self, id):
         '''Describe the content currently broadcast on a station or stream.'''
-
         if (not self.is_station_id(id) and not self.is_show_id(id)):
             raise TuneIn.TuneInError(-1, 'Id is not of the correct type.')
         params = [{'param': 'c', 'value': 'nowplaying'}, {'param':
@@ -559,7 +536,6 @@ class TuneIn:
 
     def describe_station(self, id, detail=None):
         '''Describe a station.'''
-
         if (not self.is_station_id(id)):
             raise TuneIn.TuneInError(-1, 'Id is not of the correct type.')
         params = [{'param': 'id', 'value': id}, {'param': 'detail',
@@ -573,7 +549,6 @@ class TuneIn:
 
     def describe_show(self, id, detail=None):
         '''Describe a show.'''
-
         if (not self.is_show_id(id)):
             raise TuneIn.TuneInError(-1, 'Id is not of the correct type.')
         params = [{'param': 'id', 'value': id}, {'param': 'detail',
@@ -587,7 +562,6 @@ class TuneIn:
 
     def describe_topic(self, id):
         '''Retrieves metadata for a singe radio show topic.'''
-
         if (not self.is_topic_id(id)):
             raise TuneIn.TuneInError(-1, 'Id is not of the correct type.')
         params = [{'param': 'id', 'value': id}]
@@ -600,7 +574,6 @@ class TuneIn:
 
     def describe_custom_url(self, id):
         '''Retrieves metadata for a singe custom url topic.'''
-
         if (not self.is_custom_url_id(id)):
             raise TuneIn.TuneInError(-1, 'Id is not of the correct type.')
         params = [{'param': 'id', 'value': id}]
@@ -613,7 +586,6 @@ class TuneIn:
 
     def describe_countries(self):
         '''Retrieves a list of all countries known to the TuneIn directory.'''
-
         params = [{'param': 'c', 'value': 'countries'}]
         result = self.__call_tunein('Describe.ashx', params)
         if (self.__result_ok(result)):
@@ -637,7 +609,6 @@ class TuneIn:
 
     def describe_locales(self):
         '''Retrieves a list of all locales supported by API.'''
-
         params = [{'param': 'c', 'value': 'locales'}]
         result = self.__call_tunein('Describe.ashx', params)
         if (self.__result_ok(result)):
@@ -648,7 +619,6 @@ class TuneIn:
 
     def describe_formats(self):
         '''Retrieves a list of the media formats recognized by the API.'''
-
         params = [{'param': 'c', 'value': 'formats'}]
         result = self.__call_tunein('Describe.ashx', params)
         if (self.__result_ok(result)):
@@ -659,7 +629,6 @@ class TuneIn:
 
     def describe_genres(self):
         '''Retrieves a list of all genres tagged in the TuneIn directory.'''
-
         params = [{'param': 'c', 'value': 'genres'}]
         result = self.__call_tunein('Describe.ashx', params)
         if (self.__result_ok(result)):
@@ -680,8 +649,7 @@ class TuneIn:
             return result['body']
 
     def preset_add(self, username=None, password=None, folderid=None, id=None, url=None, presetnumber=None, name=None):
-        '''Adds a preset to a named or anonymous TuneIn account.
-        '''
+        '''Adds a preset to a named or anonymous TuneIn account.'''
         params = [{'param': 'c', 'value': 'add'}, {'param': 'username', 'value': username}, {'param': 'password', 'value': password}, {'param': 'folderId', 'value': folderid}, {
             'param': 'id', 'value': id}, {'param': 'url', 'value': url}, {'param': 'presetNumber', 'value': presetnumber}, {'param': 'name', 'value': name}]
         result = self.__call_tunein('Preset.ashx', params)
@@ -693,7 +661,6 @@ class TuneIn:
 
     def preset_remove(self, username=None, password=None, folderid=None, id=None, url=None, presetnumber=None):
         '''Removes a preset from a named or anonymous TuneIn account.'''
-        
         params = [{'param': 'c', 'value': 'remove'}, {'param': 'username', 'value': username}, {'param': 'password', 'value': password}, {
             'param': 'folderId', 'value': folderid}, {'param': 'id', 'value': id}, {'param': 'url', 'value': url}, {'param': 'presetNumber', 'value': presetnumber}]
         result = self.__call_tunein('Preset.ashx', params)
@@ -705,7 +672,6 @@ class TuneIn:
 
     def preset_addfolder(self, username=None, password=None, name=None):
         '''Adds a folder to a named or anonymous TuneIn account.'''
-
         params = [{'param': 'c', 'value': 'addFolder'}, {'param': 'username', 'value': username}, {
             'param': 'password', 'value': password}, {'param': 'name', 'value': name}]
         result = self.__call_tunein('Preset.ashx', params)
@@ -717,7 +683,6 @@ class TuneIn:
 
     def preset_removefolder(self, username=None, password=None, folderid=None, name=None):
         '''Removes a folder from a named or anonymous TuneIn account.'''
-
         params = [{'param': 'c', 'value': 'removeFolder'}, {'param': 'username', 'value': username}, {
             'param': 'password', 'value': password}, {'param': 'folderId', 'value': folderid}]
         result = self.__call_tunein('Preset.ashx', params)
@@ -729,7 +694,6 @@ class TuneIn:
 
     def preset_renamefolder(self, username=None, password=None, folderid=None, name=None):
         '''Renames a folder for a named or anonymous TuneIn account.'''
-
         params = [{'param': 'c', 'value': 'renameFolder'}, {'param': 'username', 'value': username}, {
             'param': 'password', 'value': password}, {'param': 'folderId', 'value': folderid}, {'param': 'name', 'value': name}]
         result = self.__call_tunein('Preset.ashx', params)
@@ -741,7 +705,6 @@ class TuneIn:
 
     def preset_listfolders(self, username=None, password=None):
         '''Renames a folder for a named or anonymous TuneIn account.'''
-
         params = [{'param': 'c', 'value': 'listFolders'}, {'param': 'username',
                                                            'value': username}, {'param': 'password', 'value': password}]
         result = self.__call_tunein('Preset.ashx', params)
@@ -773,7 +736,6 @@ class TuneIn:
 
     def search(self, query, filter=None, types=None, call=None, name=None, freq=None):
         '''Free-text searching for stations, shows, topics, songs, artists and stream urls.'''
-
         params = [{'param': 'query', 'value': query}, {'param': 'filter', 'value': filter}, {'param': 'types', 'value': types}, {
             'param': 'call', 'value': call}, {'param': 'name', 'value': name}, {'param': 'freq', 'value': freq}]
         result = self.__call_tunein('Search.ashx', params)
@@ -785,7 +747,6 @@ class TuneIn:
 
     def search_artist(self, query):
         '''Search for station broadcasting a specific artist.'''
-
         params = [{'param': 'c', 'value': 'artist'}, {'param':
                                                       'query', 'value': query}]
         result = self.__call_tunein('Search.ashx', params)
@@ -797,7 +758,6 @@ class TuneIn:
 
     def search_song(self, query):
         '''Search for station broadcasting a specific song.'''
-
         params = [{'param': 'c', 'value': 'song'}, {'param':
                                                     'query', 'value': query}]
         result = self.__call_tunein('Search.ashx', params)
@@ -809,7 +769,6 @@ class TuneIn:
 
     def search_song_artist(self, query):
         '''Search for station broadcasting a specific song and artist.'''
-
         params = [{'param': 'c', 'value': 'song,artist'}, {'param':
                                                            'query', 'value': query}]
         result = self.__call_tunein('Search.ashx', params)
@@ -821,7 +780,6 @@ class TuneIn:
 
     def search_stream(self, query):
         '''Search for a station broadcasting on a specific stream.'''
-
         params = [{'param': 'c', 'value': 'stream'}, {'param':
                                                       'query', 'value': query}]
         result = self.__call_tunein('Search.ashx', params)
@@ -833,7 +791,6 @@ class TuneIn:
 
     def tune(self, id):
         '''Returns a list of streams associated with the station.'''
-
         self.log_debug('tune')
         self.log_debug('id: %s' % id)
         if (not self.is_station_id(id) and not self.is_topic_id(id)):
@@ -942,7 +899,6 @@ class TuneIn:
 
     def tune_ebrowse(self, id):
         '''Returns individual links for streams associated with the station.'''
-
         if (not self.is_station_id(id)):
             raise TuneIn.TuneInError(-1, 'Id is not of the correct type.')
         params = [{'param': 'id', 'value': id}, {'param': 'c',
@@ -951,7 +907,6 @@ class TuneIn:
 
     def tune_show(self, id, flatten=None, category='pbrowse', filter=''):
         '''Provides links to all available downloads for station.'''
-
         if (not self.is_show_id(id)):
             raise TuneIn.TuneInError(-1, 'Id is not of the correct type.')
         params = [{'param': 'id', 'value': id}, {'param': 'c', 'value': category}, {
