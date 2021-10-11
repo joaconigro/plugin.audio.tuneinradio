@@ -1,3 +1,9 @@
+*** 4.0.2 ***
+Use UTF8 as default encoding.
+
+*** 4.0.1 ***
+Update some deprecated functions.
+
 *** 4.0.0 ***
 Update to Python 3.x
 
