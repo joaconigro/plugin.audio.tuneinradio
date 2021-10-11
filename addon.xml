@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.audio.tuneinradio" name="TuneIn Radio" version="4.0.1" provider-name="joaconigro">
+<addon id="plugin.audio.tuneinradio" name="TuneIn Radio" version="4.0.2" provider-name="joaconigro">
 	<requires>
 		<import addon="xbmc.python" version="3.0.0"/>
 		<import addon="script.module.simplejson" version="3.17.0"/>
