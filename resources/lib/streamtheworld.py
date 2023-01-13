@@ -1,4 +1,4 @@
-#/*
+# /*
 # *
 # * TuneIn Radio for Kodi.
 # *
@@ -20,16 +20,18 @@
 # */
 
 from random import choice as choise
-import urllib.request, urllib.error, urllib.parse
+import urllib.request
+import urllib.error
+import urllib.parse
 import xml.dom.minidom as minidom
 
 
 class StreamTheWorld:
-    ## Example XML document we are parsing follows, as the minidom code is so beautiful to follow
+    # Example XML document we are parsing follows, as the minidom code is so beautiful to follow
     # http://playerservices.streamtheworld.com/api/livestream?version=1.4&mount=CARACOL_RADIOAAC&lang=EN
     #
-    #<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-    #<live_stream_config version="1.4">
+    # <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    # <live_stream_config version="1.4">
     #   <mountpoints>
     #          <mountpoint>
     #                       <status>
@@ -71,9 +73,10 @@ class StreamTheWorld:
     #                       <timeout>0</timeout>
     #               </mountpoint>
     #   </mountpoints>
-    #</live_stream_config>
+    # </live_stream_config>
 
-    ''' Parse streamtheworld URL to HTTP Stream'''    
+    ''' Parse streamtheworld URL to HTTP Stream'''
+
     def __init__(self, cs):
         self.__cs__ = cs
         return

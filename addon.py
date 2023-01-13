@@ -1,4 +1,4 @@
-#/*
+# /*
 # *
 # * TuneIn Radio for Kodi.
 # *
@@ -23,8 +23,12 @@ import xbmc
 import xbmcgui
 import xbmcplugin
 import os
-import urllib.request, urllib.parse, urllib.error
-import urllib.request, urllib.error, urllib.parse
+import urllib.request
+import urllib.parse
+import urllib.error
+import urllib.request
+import urllib.error
+import urllib.parse
 import re
 import sys
 
@@ -35,6 +39,7 @@ import resources.lib.kodisettings as settings
 import resources.lib.kodiutils as utils
 
 # import web_pdb; web_pdb.set_trace()
+
 
 def get_max_preset_num(elementslist):
     maxpresetnum = 0
@@ -104,7 +109,7 @@ def process_tunein_json(elements, presets=True):
                         # else:
                             # print('Ignoring outline-children-stations: %s' %
                             # children)
-                    elif('key' in element and element['key'] == 'topics'):
+                    elif ('key' in element and element['key'] == 'topics'):
                         if ('item' in children and children['item'] == 'topic'):
                             elementslist.append(
                                 {'topic': __read_element__(children)})
@@ -282,10 +287,14 @@ def add_directory_item(name, url, label='', artist='', album='', genre='', comme
             1011), 'XBMC.RunPlugin(%s?path=refresh)' % __settings__.get_argv(0)))
 
     liz = xbmcgui.ListItem(name, label)
-    liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
+    liz.setArt({'icon': iconImage, 'thumb': thumbnailImage})
     liz.addContextMenuItems(items=contextmenu, replaceItems=True)
-    liz.setInfo('Music', {'Title': name, 'Artist': artist, 'Album':
-                album, 'Genre': genre, 'Comment': comment})
+    tag = liz.getMusicInfoTag()
+    tag.setTitle(name)
+    tag.setArtist(artist)
+    tag.setAlbum(album)
+    tag.setGenres([genre])
+    tag.setComment(comment)
     if not isfolder:
         liz.setProperty('IsPlayable', 'true')
 
@@ -344,14 +353,15 @@ def add_link_outline(link):
     if __tunein__.is_show_id(id):
         path = 'tune-show'
         contextmenu = [(__settings__.get_string(1009), 'XBMC.RunPlugin(%s?path=%s&id=%s)' %
-                    (__settings__.get_argv(0), 'add', id, ))]
+                        (__settings__.get_argv(0), 'add', id, ))]
     else:
         contextmenu = []
 
     url = utils.add_params(__settings__.get_argv(0), {
                            'path': path, 'id': id, 'c': category, 'name': name, 'filter': filter, 'offset': offset, 'pivot': pivot})
 
-    add_directory_item(name, url, label=label, logo=logo, contextmenu=contextmenu)
+    add_directory_item(name, url, label=label, logo=logo,
+                       contextmenu=contextmenu)
 
 
 def add_show(show):
@@ -433,7 +443,8 @@ def add_station(station):
     if not __tunein__.is_station_id(id):
         return
 
-    contextmenu = [(__settings__.get_string(1018), 'XBMC.RunPlugin(%s)' % (utils.add_params(__settings__.get_argv(0), {'path': 'kodi-favourites', 'id': id, 'name': name, 'logo': logo})))]
+    contextmenu = [(__settings__.get_string(1018), 'XBMC.RunPlugin(%s)' % (utils.add_params(
+        __settings__.get_argv(0), {'path': 'kodi-favourites', 'id': id, 'name': name, 'logo': logo})))]
 
     url = utils.add_params(__settings__.get_argv(
         0), {'path': 'tune', 'id': id, 'name': name, 'logo': logo})
@@ -473,7 +484,8 @@ def add_station_outline(station):
         contextmenu = [(__settings__.get_string(
             1004), 'XBMC.RunPlugin(%s?path=%s&id=%s)' % (__settings__.get_argv(0), 'add', id))]
 
-    contextmenu.append((__settings__.get_string(1018), 'XBMC.RunPlugin(%s)' % (utils.add_params(__settings__.get_argv(0), {'path': 'kodi-favourites', 'id': id, 'name': name, 'logo': logo}))))
+    contextmenu.append((__settings__.get_string(1018), 'XBMC.RunPlugin(%s)' % (utils.add_params(
+        __settings__.get_argv(0), {'path': 'kodi-favourites', 'id': id, 'name': name, 'logo': logo}))))
     add_directory_item(name, url, album, artist=label, album=name, genre=genre,
                        logo=logo, isfolder=False, contextmenu=contextmenu)
 
@@ -571,21 +583,25 @@ def add_streams(streams, name=None, logo=None):
     listitems = []
     for count, stream in enumerate(streams):
         log_debug('Adding stream %s to playlist.' % stream, 1)
-        pDialog.update(50, 'Adding stream %d of %d to playlist' % (count + 1, len(streams)))
+        pDialog.update(50, 'Adding stream %d of %d to playlist' %
+                       (count + 1, len(streams)))
 
         if name:
             liz = xbmcgui.ListItem(name)
-            liz.setArt({ 'icon': logo, 'thumb' : logo })
-            liz.setInfo('music', {'Title': name})
+            liz.setArt({'icon': logo, 'thumb': logo})
+            tag = liz.getMusicInfoTag()
+            tag.setTitle(name)
             listitems.append(liz)
             playlist.add(url=stream, listitem=liz)
         else:
             playlist.add(url=stream)
     pDialog.close()
     if len(playlist) > 0:
-        xbmcplugin.setResolvedUrl(handle=int(__settings__.get_argv(1)), succeeded=True, listitem=listitems[0])
+        xbmcplugin.setResolvedUrl(handle=int(
+            __settings__.get_argv(1)), succeeded=True, listitem=listitems[0])
     else:
-        xbmcplugin.setResolvedUrl(handle=int(__settings__.get_argv(1)), succeeded=False, listitem=None)
+        xbmcplugin.setResolvedUrl(handle=int(
+            __settings__.get_argv(1)), succeeded=False, listitem=None)
 
 
 def play_streams(streams, name=None, logo=None):
@@ -606,7 +622,8 @@ def log_error(msg):
 
 def log_debug(msg, dbglvl):
     if __debuglevel__ >= int(dbglvl):
-        xbmc.log(('%s: DEBUG: %s' % (__addonname__, utils.normalize_unicode(msg))))
+        xbmc.log(('%s: DEBUG: %s' %
+                 (__addonname__, utils.normalize_unicode(msg))))
 
 
 def get_logo_colour():
@@ -646,6 +663,7 @@ def get_genre_name(id):
     except:
         return ''
 
+
 # Set some global values.
 __xbmcrevision__ = xbmc.getInfoLabel('System.BuildVersion')
 __addonid__ = 'plugin.audio.tuneinradio'
@@ -657,11 +675,16 @@ __settings__ = settings.Settings(__addonid__, sys.argv)
 
 # Initialise caches.
 __useUtf8Encoding__ = __settings__.get('encoding-utf8') == "true"
-_recentscache = cache.Cache(__settings__.get_datapath(), 'recents.db', __useUtf8Encoding__, __settings__.get('recents'))
-__downloadscache__ = cache.Cache(__settings__.get_datapath(), 'downloads.db', __useUtf8Encoding__)
-__showscache__ = cache.Cache(__settings__.get_datapath(), 'shows.db', __useUtf8Encoding__)
-__genrescache__ = cache.Cache(__settings__.get_datapath(), 'genres.db', __useUtf8Encoding__)
-__formatscache__ = cache.Cache(__settings__.get_datapath(), 'formats.db', __useUtf8Encoding__)
+_recentscache = cache.Cache(__settings__.get_datapath(
+), 'recents.db', __useUtf8Encoding__, __settings__.get('recents'))
+__downloadscache__ = cache.Cache(
+    __settings__.get_datapath(), 'downloads.db', __useUtf8Encoding__)
+__showscache__ = cache.Cache(
+    __settings__.get_datapath(), 'shows.db', __useUtf8Encoding__)
+__genrescache__ = cache.Cache(
+    __settings__.get_datapath(), 'genres.db', __useUtf8Encoding__)
+__formatscache__ = cache.Cache(
+    __settings__.get_datapath(), 'formats.db', __useUtf8Encoding__)
 
 # Get addon information.
 __addonname__ = __settings__.get_name()
@@ -1019,10 +1042,12 @@ elif __path__ == 'refresh':
 
 # Add station/show to Kodi favourites.
 elif __path__ == 'kodi-favourites':
-    log_debug('Adding %s to Kodi favourites' % utils.get_value(__params__, 'name'), 1)
+    log_debug('Adding %s to Kodi favourites' %
+              utils.get_value(__params__, 'name'), 1)
     name = utils.get_value(__params__, 'name')
     logo = utils.get_value(__params__, 'logo')
-    command = 'PlayMedia(\"%s\")' % (utils.add_params(root='plugin://%s/' % (__addonid__), params={'logo': logo, 'path': 'tune', 'id': utils.get_value(__params__, 'id'), 'name': name}))
+    command = 'PlayMedia(\"%s\")' % (utils.add_params(root='plugin://%s/' % (__addonid__), params={
+        'logo': logo, 'path': 'tune', 'id': utils.get_value(__params__, 'id'), 'name': name}))
     if not utils.add_to_favourites(name, logo, command):
         utils.ok(__addonname__, __settings__.get_string(3017))
 
@@ -1050,7 +1075,7 @@ else:
         thumbnailImage = __settings__.get_path(
             '%s%s%s' % ('resources/media/', get_logo_colour(), '/favourites-256.png'))
         liz = xbmcgui.ListItem(__settings__.get_string(1000))
-        liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
+        liz.setArt({'icon': iconImage, 'thumb': thumbnailImage})
         liz.addContextMenuItems(items=contextmenu, replaceItems=True)
         if __settings__.get('fanart') == "true":
             liz.setProperty('fanart_image', __fanart__)
@@ -1065,7 +1090,7 @@ else:
             thumbnailImage = __settings__.get_path('%s%s%s' % (
                 'resources/media/', get_logo_colour(), '/recents-256.png'))
             liz = xbmcgui.ListItem(__settings__.get_string(1001))
-            liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
+            liz.setArt({'icon': iconImage, 'thumb': thumbnailImage})
             liz.addContextMenuItems(items=contextmenu, replaceItems=True)
             if __settings__.get('fanart') == "true":
                 liz.setProperty('fanart_image', __fanart__)
@@ -1080,7 +1105,7 @@ else:
             thumbnailImage = __settings__.get_path('%s%s%s' % (
                 'resources/media/', get_logo_colour(), '/downloads-256.png'))
             liz = xbmcgui.ListItem(__settings__.get_string(1015))
-            liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
+            liz.setArt({'icon': iconImage, 'thumb': thumbnailImage})
             liz.addContextMenuItems(items=contextmenu, replaceItems=True)
             if __settings__.get('fanart') == "true":
                 liz.setProperty('fanart_image', __fanart__)
@@ -1094,7 +1119,7 @@ else:
         thumbnailImage = __settings__.get_path('%s%s%s' % (
             'resources/media/', get_logo_colour(), '/browse-256.png'))
         liz = xbmcgui.ListItem(__settings__.get_string(1002))
-        liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
+        liz.setArt({'icon': iconImage, 'thumb': thumbnailImage})
         liz.addContextMenuItems(items=contextmenu, replaceItems=True)
         if __settings__.get('fanart') == "true":
             liz.setProperty('fanart_image', __fanart__)
@@ -1106,9 +1131,9 @@ else:
         iconImage = __settings__.get_path('%s%s%s' % (
             'resources/media/', get_logo_colour(), '/search-32.png'))
         thumbnailImage = __settings__.get_path('%s%s%s' % (
-            'resources/media/', get_logo_colour(), '/search-256.png')) 
+            'resources/media/', get_logo_colour(), '/search-256.png'))
         liz = xbmcgui.ListItem(__settings__.get_string(1003))
-        liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
+        liz.setArt({'icon': iconImage, 'thumb': thumbnailImage})
         liz.addContextMenuItems(items=contextmenu, replaceItems=True)
         if __settings__.get('fanart') == "true":
             liz.setProperty('fanart_image', __fanart__)
@@ -1120,9 +1145,9 @@ else:
         iconImage = __settings__.get_path('%s%s%s' % (
             'resources/media/', get_logo_colour(), '/stream-32.png'))
         thumbnailImage = __settings__.get_path('%s%s%s' % (
-            'resources/media/', get_logo_colour(), '/stream-256.png')) 
+            'resources/media/', get_logo_colour(), '/stream-256.png'))
         liz = xbmcgui.ListItem(__settings__.get_string(1006))
-        liz.setArt({ 'icon': iconImage, 'thumb' : thumbnailImage })
+        liz.setArt({'icon': iconImage, 'thumb': thumbnailImage})
         liz.setProperty('IsPlayable', 'true')
         liz.addContextMenuItems(items=contextmenu, replaceItems=True)
         if __settings__.get('fanart') == "true":

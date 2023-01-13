@@ -1,4 +1,4 @@
-#/*
+# /*
 # *
 # * TuneIn Radio for Kodi.
 # *
@@ -22,8 +22,9 @@
 import sys
 import os
 
-import urllib.request, urllib.parse, urllib.error
-import urllib.request, urllib.error, urllib.parse
+import urllib.request
+import urllib.parse
+import urllib.error
 import re
 
 import configparser
@@ -45,6 +46,7 @@ class TuneIn:
     class TuneInError(Exception):
 
         ''' Exception raised when an error or invalid response is received.'''
+
         def __init__(self, status, fault, faultcode=''):
             self.status = status
             self.fault = fault
@@ -895,7 +897,7 @@ class TuneIn:
                 self.log_debug('Unknown stream')
                 streams.append(stream)
 
-        return streams   
+        return streams
 
     def tune_ebrowse(self, id):
         '''Returns individual links for streams associated with the station.'''

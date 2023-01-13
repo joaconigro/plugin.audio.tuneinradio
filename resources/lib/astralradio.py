@@ -1,4 +1,4 @@
-#/*
+# /*
 # *
 # * TuneIn Radio for Kodi.
 # *
@@ -20,9 +20,11 @@
 # */
 
 import sys
-import urllib.request, urllib.error, urllib.parse
+import urllib.request
+import urllib.error
+import urllib.parse
 
-if sys.version_info >= (2,7):
+if sys.version_info >= (2, 7):
     import json as _json
 else:
     import simplejson as _json
@@ -37,14 +39,15 @@ class AstralRadio:
         streams = []
         if not self.__url__:
             return streams
-        
+
         try:
             # Workout callsign
             callsign = self.__url__.split('//')[1].split('.')
 
             if len(callsign) > 0:
                 # Read json config for station
-                f = urllib.request.urlopen(('http://provstatic1.amri.ca/ps/player_%sfm.v2.json' % callsign[0]))
+                f = urllib.request.urlopen(
+                    ('http://provstatic1.amri.ca/ps/player_%sfm.v2.json' % callsign[0]))
                 config = _json.load(f)
                 f.close()
 
@@ -52,9 +55,11 @@ class AstralRadio:
                 if 'streams' in config:
                     for stream in config['streams']:
                         if 'mount' in stream and len(stream['mount']) > 0 and 'stream' in stream and len(stream['stream']) > 0:
-                            rtmpurl = 'rtmp://%s/%s' % (stream['mount'], stream['stream'])
+                            rtmpurl = 'rtmp://%s/%s' % (
+                                stream['mount'], stream['stream'])
                             swfurl = config['playerBaseUrl']
-                            streams.append('%s swfurl=%s/ swfvfy=true pageurl=%s/ live=true' % (rtmpurl, swfurl, swfurl))
+                            streams.append(
+                                '%s swfurl=%s/ swfvfy=true pageurl=%s/ live=true' % (rtmpurl, swfurl, swfurl))
         except:
             pass
 

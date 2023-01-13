@@ -1,4 +1,4 @@
-#/*
+# /*
 # *
 # * TuneIn Radio for Kodi.
 # *
@@ -19,13 +19,13 @@
 # *
 # */
 
-import xbmc
-import xbmcgui
 import sys
 import os
-import urllib.request, urllib.parse, urllib.error
-import urllib.request, urllib.error, urllib.parse
+import urllib.request
 import urllib.parse
+import urllib.error
+import xbmc
+import xbmcgui
 from . import kodisettings as settings
 from . import kodiutils as utils
 
@@ -37,7 +37,8 @@ def cancel_progressdialog(progressdialog):
 def update_progressdialog(addonsettings, progressdialog, downloadfile, bytes_so_far, chunk_size, total_size):
     percent = float(bytes_so_far) / total_size
     percent = int(round(percent * 99, 0))
-    progressdialog.update(percent, os.path.basename(downloadfile), addonsettings.get_string(4002) % (bytes_so_far, total_size))
+    progressdialog.update(percent, os.path.basename(
+        downloadfile), addonsettings.get_string(4002) % (bytes_so_far, total_size))
 
 
 def __download(url, path, addonsettings, progressdialog=None, chunk_size=8192, cancelhook=None, reporthook=None):
@@ -94,7 +95,8 @@ def download(url, downloadpath, addonid, background=False, debug=False):
         os.makedirs(downloadpath)
     try:
         if background == False:
-            result = __download(url, downloadpath, addonsettings, progressdialog, cancelhook=cancel_progressdialog, reporthook=update_progressdialog)
+            result = __download(url, downloadpath, addonsettings, progressdialog,
+                                cancelhook=cancel_progressdialog, reporthook=update_progressdialog)
         else:
             result = __download(url, downloadpath, addonsettings)
     except urllib.error.URLError as e:
@@ -115,6 +117,7 @@ def download(url, downloadpath, addonid, background=False, debug=False):
         xbmc.executebuiltin(command)
 
     return result
+
 
 if __name__ == '__main__':
     result = download(sys.argv[1], urllib.parse.unquote_plus(sys.argv[2]), sys.argv[

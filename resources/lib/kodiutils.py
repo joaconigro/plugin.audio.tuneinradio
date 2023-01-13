@@ -1,4 +1,4 @@
-#/*
+# /*
 # *
 # * TuneIn Radio for Kodi.
 # *
@@ -23,7 +23,9 @@ import xbmc
 import xbmcvfs
 import xbmcgui
 import unicodedata
-import urllib.request, urllib.parse, urllib.error
+import urllib.request
+import urllib.parse
+import urllib.error
 import xml.etree.ElementTree as etree
 
 
@@ -32,7 +34,7 @@ def normalize_unicode(text):
         return text
     if not text or len(text) == 0:
         return ''
-    return unicodedata.normalize('NFKD', text) #.encode('ascii', 'ignore')
+    return unicodedata.normalize('NFKD', text)  # .encode('ascii', 'ignore')
 
 
 def check_value(value):
@@ -97,7 +99,8 @@ def mac_address():
 
 def add_to_favourites(name, thumb, command):
     try:
-        favourites = xbmcvfs.translatePath('%s/%s' % ('special://profile/', 'favourites.xml'))
+        favourites = xbmcvfs.translatePath(
+            '%s/%s' % ('special://profile/', 'favourites.xml'))
         tree = etree.parse(favourites)
         root = tree.getroot()
         favourite = etree.SubElement(root, 'favourite')
@@ -125,5 +128,6 @@ def get_params(text):
             splitparams = {}
             splitparams = pairsofparams[i].split('=')
             if len(splitparams) == 2:
-                param[splitparams[0]] = urllib.parse.unquote_plus(splitparams[1])
+                param[splitparams[0]] = urllib.parse.unquote_plus(
+                    splitparams[1])
     return param
