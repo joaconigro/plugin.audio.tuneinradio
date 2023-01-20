@@ -7,3 +7,4 @@ resources/*.pyo
 resources/lib/*.pyc
 resources/lib/*.pyo
 .vscode/*
+output/*
