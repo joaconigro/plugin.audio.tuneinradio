@@ -1,11 +1,12 @@
 $ScriptPath = Split-Path $MyInvocation.MyCommand.Path -Parent
-$FolderName = "$($ScriptPath)/output/plugin.audio.tuneinradio/"
+$OutputFolder = "$($ScriptPath)/output/"
+$FolderName = "$($OutputFolder)plugin.audio.tuneinradio/"
 
 if (Test-Path $FolderName) {
    
     Write-Host "Folder Exists... deleting"
     # Perform Delete folder operation
-    Remove-Item $FolderName -Recurse
+    Remove-Item $OutputFolder -Recurse
 }
 
 Write-Host "Folder Doesn't Exists... creating"
@@ -23,4 +24,4 @@ Copy-Item -Path "$($ScriptPath)/README.md" -Destination $FolderName
 
 Write-Host "Creating zip file..."
 # Creates a zip file
-Compress-Archive -Path $FolderName -DestinationPath "$($ScriptPath)/output/plugin.audio.tuneinradio.zip"
+Compress-Archive -Path $FolderName -DestinationPath "$($OutputFolder)plugin.audio.tuneinradio.zip"
